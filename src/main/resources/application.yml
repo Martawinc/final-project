@@ -1,0 +1,7 @@
+datasource:
+  driverName: org.postgresql.Driver
+  url: jdbc:postgresql://localhost:5432/tee_shirt_design
+  login: postgres
+  password: root
+  initialSize: 10
+  maxActive: 7
