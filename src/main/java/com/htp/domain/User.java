@@ -1,50 +1,86 @@
 package com.htp.domain;
 
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.RequiredArgsConstructor;
-import lombok.ToString;
+import lombok.*;
+import lombok.experimental.FieldDefaults;
+import lombok.experimental.NonFinal;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
-import java.util.Date;
+import java.util.*;
 
-@Data
+@Entity
+@Table(name = "m_user")
+@FieldDefaults (level = AccessLevel.PRIVATE, makeFinal = true)
+@NoArgsConstructor (force = true)
 @RequiredArgsConstructor
+@Data
 @EqualsAndHashCode(exclude = "id") // +exclude Collections
 @ToString() //+exclude Collections
-@Entity
-@Table(name = "m_user", schema = "public")
-public class User {
+public class User implements UserDetails {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    private Long id;
+    @NonFinal
+    Long id;
 
     @Column(name = "login")
-    private String login;
+    String login;
 
     @Column(name = "password")
-    private String password;
+    String password;
 
     @Column(name = "full_name")
-    private String fullName;
+    String fullName;
 
     @Column(name = "birth_date")
     @Temporal(TemporalType.DATE)
-    private Date birthDate;
+    Date birthDate;
 
     @Column(name = "city")
-    private String city;
+    String city;
 
     @Column(name = "street")
-    private String street;
+    String street;
 
     @Column(name = "zip")
-    private Long zip;
+    Long zip;
 
     @Column(name = "phone_number")
-    private String phoneNumber;
+    String phoneNumber;
 
     @Column(name = "mail")
-    private String mail;
+    String mail;
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return Arrays.asList(new SimpleGrantedAuthority("ROLE_USER"));
+    }
+
+    @Override
+    public String getUsername() {
+        return this.getLogin();
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
+    }
 }

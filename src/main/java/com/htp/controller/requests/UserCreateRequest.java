@@ -1,24 +1,32 @@
 package com.htp.controller.requests;
 
-import lombok.AllArgsConstructor;
+import com.htp.domain.User;
+import lombok.AccessLevel;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.experimental.FieldDefaults;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
-import java.sql.Timestamp;
 import java.util.Date;
 
 @Data
 @NoArgsConstructor
-@AllArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class UserCreateRequest {
 
-    private String login;
-    private String password;
-    private String fullName;
-    private Date birthDate;
-    private String city;
-    private String street;
-    private Long zip;
-    private String phoneNumber;
-    private String mail;
+    String login;
+    String password;
+    String fullName;
+    Date birthDate;
+    String city;
+    String street;
+    Long zip;
+    String phoneNumber;
+    String mail;
+
+    public User createUser(PasswordEncoder passwordEncoder) {
+        return new User(login, passwordEncoder.encode(password), fullName, birthDate,
+                city, street, zip, phoneNumber, mail);
+    }
+
 }

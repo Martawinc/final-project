@@ -16,6 +16,12 @@ public class UserRepository {
 
     private final EntityManager entityManager;
 
+    public User findByLogin (String login){
+        TypedQuery <User> query = entityManager.createQuery(
+                "select u from User u where u.login = :login", User.class);
+        return query.setParameter("login", login).getSingleResult();
+    }
+
     public List<User> findAll() {
         return entityManager.createQuery("select u from User u", User.class)
                 .getResultList();
@@ -29,11 +35,12 @@ public class UserRepository {
     }
 
     @Transactional
-    public User save(User entity) {
+    public User save(User user) {
         EntityTransaction transaction = entityManager.getTransaction();
         transaction.begin();
-        entityManager.persist(entity);
+        entityManager.persist(user);
         transaction.commit();
-        return entityManager.find(User.class, entity.getId());
+        return  user;
+        //return entityManager.find(User.class, user.getId());
     }
 }

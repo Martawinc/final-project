@@ -6,29 +6,25 @@ import com.htp.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.List;
 
 @RestController
-@CrossOrigin
-@RequestMapping(value = "/rest/users")
+@RequestMapping("/registration")
 @RequiredArgsConstructor
-public class UserController {
+public class RegistrationController {
 
     private final UserRepository userRepo;
+    private final PasswordEncoder encoder;
 
-    @GetMapping("/all")
-    @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<List<User>> getAllUsers() {
-        return new ResponseEntity<>(userRepo.findAll(), HttpStatus.OK);
-    }
-
-    @GetMapping("/{id}")
-    @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<User> getUserById(@PathVariable("id") Long id) {
-        return new ResponseEntity<>(userRepo.findById(id), HttpStatus.OK);
+    @PostMapping
+    @Transactional
+    @ResponseStatus(HttpStatus.CREATED)
+    public ResponseEntity<User> registrationProcess(@Valid @RequestBody UserCreateRequest form) {
+        User user = userRepo.save((form.createUser(encoder)));
+        return new ResponseEntity<>(user, HttpStatus.CREATED);
     }
 }

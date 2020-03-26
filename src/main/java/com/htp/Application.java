@@ -2,12 +2,14 @@ package com.htp;
 
 import com.htp.config.DatabaseConfig;
 import com.htp.config.SwaggerConfig;
+import com.htp.config.TransactionConfig;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.jackson.JacksonAutoConfiguration;
 import org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaAutoConfiguration;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.context.annotation.Import;
 import org.springframework.orm.jpa.JpaVendorAdapter;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
@@ -21,6 +23,7 @@ import javax.sql.DataSource;
 import java.util.Properties;
 
 @EnableSwagger2
+@EnableAspectJAutoProxy
 @EnableTransactionManagement(proxyTargetClass = true)
 @SpringBootApplication(scanBasePackages = {"com.htp"},
         exclude = {
@@ -29,6 +32,7 @@ import java.util.Properties;
         })
 @Import({
         DatabaseConfig.class,
+        TransactionConfig.class,
         SwaggerConfig.class
 })
 public class Application extends SpringBootServletInitializer {
