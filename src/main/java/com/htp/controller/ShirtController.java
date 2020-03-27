@@ -40,7 +40,7 @@ public class ShirtController {
         if (!shirts.isEmpty()) {
             return new ResponseEntity<>(shirts, HttpStatus.OK);
         }
-        return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(null, HttpStatus.NO_CONTENT);
     }
 
     @GetMapping("/quantity")
@@ -50,7 +50,7 @@ public class ShirtController {
         if (!shirts.isEmpty()) {
             return new ResponseEntity<>(shirts, HttpStatus.OK);
         }
-        return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(null, HttpStatus.NO_CONTENT);
     }
 
     @GetMapping("/colour")
@@ -60,7 +60,7 @@ public class ShirtController {
         if (!shirts.isEmpty()) {
             return new ResponseEntity<>(shirts, HttpStatus.OK);
         }
-        return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(null, HttpStatus.NO_CONTENT);
     }
 
 }
