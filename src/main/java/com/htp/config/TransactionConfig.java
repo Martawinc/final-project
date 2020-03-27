@@ -10,10 +10,10 @@ import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 @RequiredArgsConstructor
 public class TransactionConfig {
 
-    private final BasicDataSource dataSource;
+  private final BasicDataSource dataSource;
 
-    @Bean("transactionManager")
-    public DataSourceTransactionManager getTransactionManager() {
-        return new DataSourceTransactionManager(dataSource);
-    }
+  @Bean("transactionManager")
+  public DataSourceTransactionManager getTransactionManager() {
+    return new DataSourceTransactionManager(dataSource);
+  }
 }

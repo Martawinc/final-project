@@ -14,19 +14,26 @@ import java.util.Date;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class UserCreateRequest {
 
-    String login;
-    String password;
-    String fullName;
-    Date birthDate;
-    String city;
-    String street;
-    Long zip;
-    String phoneNumber;
-    String mail;
+  String login;
+  String password;
+  String fullName;
+  Date birthDate;
+  String city;
+  String street;
+  Long zip;
+  String phoneNumber;
+  String mail;
 
-    public User createUser(PasswordEncoder passwordEncoder) {
-        return new User(login, passwordEncoder.encode(password), fullName, birthDate,
-                city, street, zip, phoneNumber, mail);
-    }
-
+  public User createUser(PasswordEncoder passwordEncoder) {
+    return new User(
+        login,
+        passwordEncoder.encode(password),
+        fullName,
+        birthDate,
+        city,
+        street,
+        zip,
+        phoneNumber,
+        mail);
+  }
 }

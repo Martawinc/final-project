@@ -21,50 +21,50 @@ import java.util.Properties;
 @Configuration
 @ConfigurationProperties("datasource")
 public class DatabaseConfig {
-    private String driverName;
-    private String url;
-    private String login;
-    private String password;
-    private String initialSize;
-    private String maxActive;
+  private String driverName;
+  private String url;
+  private String login;
+  private String password;
+  private String initialSize;
+  private String maxActive;
 
-    @Bean(name = "dataSource")
-    public BasicDataSource getDatasource() {
-        BasicDataSource dataSource = new BasicDataSource();
-        dataSource.setDriverClassName(driverName);
-        dataSource.setUrl(url);
-        dataSource.setUsername(login);
-        dataSource.setPassword(password);
-        dataSource.setInitialSize(Integer.valueOf(Objects.requireNonNull(initialSize)));
-        dataSource.setMaxActive(Integer.valueOf(Objects.requireNonNull(maxActive)));
-        return dataSource;
-    }
+  @Bean(name = "dataSource")
+  public BasicDataSource getDatasource() {
+    BasicDataSource dataSource = new BasicDataSource();
+    dataSource.setDriverClassName(driverName);
+    dataSource.setUrl(url);
+    dataSource.setUsername(login);
+    dataSource.setPassword(password);
+    dataSource.setInitialSize(Integer.valueOf(Objects.requireNonNull(initialSize)));
+    dataSource.setMaxActive(Integer.valueOf(Objects.requireNonNull(maxActive)));
+    return dataSource;
+  }
 
-    @Bean(name = "entityManager")
-    public EntityManager getEntityManager(EntityManagerFactory entityManagerFactory) {
-        return entityManagerFactory.createEntityManager();
-    }
+  @Bean(name = "entityManager")
+  public EntityManager getEntityManager(EntityManagerFactory entityManagerFactory) {
+    return entityManagerFactory.createEntityManager();
+  }
 
-    @Bean(name = "entityManagerFactory")
-    public LocalContainerEntityManagerFactoryBean entityManagerFactory(DataSource dataSource) {
-        LocalContainerEntityManagerFactoryBean factory
-                = new LocalContainerEntityManagerFactoryBean();
+  @Bean(name = "entityManagerFactory")
+  public LocalContainerEntityManagerFactoryBean entityManagerFactory(DataSource dataSource) {
+    LocalContainerEntityManagerFactoryBean factory = new LocalContainerEntityManagerFactoryBean();
 
-        JpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
+    JpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
 
-        factory.setDataSource(dataSource);
-        factory.setPackagesToScan("com.htp");
-        factory.setJpaVendorAdapter(vendorAdapter);
-        factory.setJpaProperties(getAdditionalProperties());
-        return factory;
-    }
+    factory.setDataSource(dataSource);
+    factory.setPackagesToScan("com.htp");
+    factory.setJpaVendorAdapter(vendorAdapter);
+    factory.setJpaProperties(getAdditionalProperties());
+    return factory;
+  }
 
-    private Properties getAdditionalProperties() {
-        Properties properties = new Properties();
+  private Properties getAdditionalProperties() {
+    Properties properties = new Properties();
 
-        properties.put("hibernate.show_sql", "true");
-        properties.put("hibernate.archive.autodetection", "class, hbm");
-        properties.put("current_session_context_class", "org.springframework.orm.hibernate5.SpringSessionContext");
-        return properties;
-    }
+    properties.put("hibernate.show_sql", "true");
+    properties.put("hibernate.archive.autodetection", "class, hbm");
+    properties.put(
+        "current_session_context_class", "org.springframework.orm.hibernate5.SpringSessionContext");
+    return properties;
+  }
 }

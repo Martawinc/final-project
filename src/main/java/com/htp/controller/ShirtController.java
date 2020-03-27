@@ -52,7 +52,7 @@ public class ShirtController {
   @GetMapping("/size")
   public ResponseEntity<List<BlankShirt>> blankShirtBySize(
       @ApiParam(value = "Size by which need to filter blank tee-shirts")
-          @RequestParam(name = "size", defaultValue = "M")
+          @RequestParam(name = "size")
           BlankShirt.Size size) {
     List<BlankShirt> shirts = shirtRepo.findBySize(size);
     if (!shirts.isEmpty()) {

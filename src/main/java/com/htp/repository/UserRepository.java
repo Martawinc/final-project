@@ -36,8 +36,8 @@ public class UserRepository {
 
     @Transactional
     public User save(User user) {
-        EntityTransaction transaction = entityManager.getTransaction();
-        transaction.begin();
+    EntityTransaction transaction = entityManager.getTransaction();
+    transaction.begin();
         entityManager.persist(user);
         transaction.commit();
         return  user;

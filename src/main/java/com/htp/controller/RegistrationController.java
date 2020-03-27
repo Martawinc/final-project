@@ -20,13 +20,13 @@ import javax.validation.Valid;
 @RequiredArgsConstructor
 public class RegistrationController {
 
-    private final UserRepository userRepo;
-    private final PasswordEncoder encoder;
+  private final UserRepository userRepo;
+  private final PasswordEncoder encoder;
 
-    @PostMapping
-    @Transactional
-    public ResponseEntity<User> registrationProcess(@Valid @RequestBody UserCreateRequest form) {
-        User user = userRepo.save((form.createUser(encoder)));
-        return new ResponseEntity<>(user, HttpStatus.CREATED);
-    }
+  @PostMapping
+  @Transactional
+  public ResponseEntity<User> registrationProcess(@Valid @RequestBody UserCreateRequest form) {
+    User user = userRepo.save((form.createUser(encoder)));
+    return new ResponseEntity<>(user, HttpStatus.CREATED);
+  }
 }

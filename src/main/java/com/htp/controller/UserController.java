@@ -15,17 +15,17 @@ import java.util.List;
 @RequiredArgsConstructor
 public class UserController {
 
-    private final UserRepository userRepo;
+  private final UserRepository userRepo;
 
-    @GetMapping("/all")
-    @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<List<User>> getAllUsers() {
-        return new ResponseEntity<>(userRepo.findAll(), HttpStatus.OK);
-    }
+  @GetMapping("/all")
+  @ResponseStatus(HttpStatus.OK)
+  public ResponseEntity<List<User>> getAllUsers() {
+    return new ResponseEntity<>(userRepo.findAll(), HttpStatus.OK);
+  }
 
-    @GetMapping("/{id}")
-    @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<User> getUserById(@PathVariable("id") Long id) {
-        return new ResponseEntity<>(userRepo.findById(id), HttpStatus.OK);
-    }
+  @GetMapping("/{id}")
+  @ResponseStatus(HttpStatus.OK)
+  public ResponseEntity<User> getUserById(@PathVariable("id") Long id) {
+    return new ResponseEntity<>(userRepo.findById(id), HttpStatus.OK);
+  }
 }

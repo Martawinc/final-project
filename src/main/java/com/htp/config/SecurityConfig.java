@@ -17,40 +17,35 @@ import org.springframework.security.crypto.password.StandardPasswordEncoder;
 @RequiredArgsConstructor
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-    private final UserDetailsService userDetailsService;
+  private final UserDetailsService userDetailsService;
 
-    @Bean
-    public PasswordEncoder encoder() {
-        return new StandardPasswordEncoder("66rt7o");
-    }
+  @Bean
+  public PasswordEncoder encoder() {
+    return new StandardPasswordEncoder("66rt7o");
+  }
 
-    @Override
-    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth
-                .userDetailsService(userDetailsService)
-                .passwordEncoder(encoder());
-    }
+  @Override
+  protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+    auth.userDetailsService(userDetailsService).passwordEncoder(encoder());
+  }
 
-    @Override
-    protected void configure(HttpSecurity http) throws Exception {
-        http
-                .csrf()
-                .disable()
-                .exceptionHandling()
-                .and()
-                .sessionManagement()
-                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                .and()
-                .authorizeRequests()
-                .antMatchers("/registration").permitAll()
-                .antMatchers("/**").permitAll()
-                //.hasAuthority("ROLE_USER")
-        //.and()
-        //    .formLogin()
-        //    .loginPage("/login")
-        //.and()
-        //    .logout()
-        ;
-
-    }
+  @Override
+  protected void configure(HttpSecurity http) throws Exception {
+    http
+        .sessionManagement()
+        .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)
+      .and()
+        .authorizeRequests()
+          .antMatchers("/registration")
+            .permitAll()
+          .antMatchers("/**")
+            .permitAll()
+    // .hasAuthority("ROLE_USER")
+    // .and()
+    //    .formLogin()
+    //    .loginPage("/login")
+    // .and()
+    //    .logout()
+    ;
+  }
 }

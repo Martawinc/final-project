@@ -19,18 +19,17 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @EnableJpaRepositories
 @EnableTransactionManagement(proxyTargetClass = true)
 @EnableAspectJAutoProxy
-@SpringBootApplication(scanBasePackages = {"com.htp"},
-        exclude = {JacksonAutoConfiguration.class,
-                HibernateJpaAutoConfiguration.class})
-@Import({
-        DatabaseConfig.class,
+@SpringBootApplication(
+    scanBasePackages = {"com.htp"},
+    exclude = {JacksonAutoConfiguration.class,
+            HibernateJpaAutoConfiguration.class})
+@Import({DatabaseConfig.class,
         TransactionConfig.class,
         SecurityConfig.class,
-        SwaggerConfig.class
-})
+        SwaggerConfig.class})
 public class Application extends SpringBootServletInitializer {
-    public static void main(String[] args) {
+  public static void main(String[] args) {
 
-        SpringApplication.run(Application.class, args);
-    }
+    SpringApplication.run(Application.class, args);
+  }
 }

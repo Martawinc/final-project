@@ -15,11 +15,11 @@ import java.util.Date;
 @Entity
 @Table(name = "m_user")
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
-@NoArgsConstructor (force = true)
+@NoArgsConstructor(force = true)
 @RequiredArgsConstructor
 @Data
 @EqualsAndHashCode(exclude = "id") // +exclude Collections
-@ToString() //+exclude Collections
+@ToString() // +exclude Collections
 public class User implements UserDetails {
 
     @Id

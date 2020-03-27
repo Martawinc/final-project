@@ -13,21 +13,21 @@ import javax.persistence.*;
 @NoArgsConstructor
 @Data
 @EqualsAndHashCode(exclude = "id") // +exclude Collections
-@ToString() //+exclude Collections
+@ToString() // +exclude Collections
 public class DesignShirt {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private Long id;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "blank_shirt_id")
-    @JsonManagedReference
-    private BlankShirt shirt;
+  @ManyToOne(fetch = FetchType.EAGER)
+  @JoinColumn(name = "blank_shirt_id")
+  @JsonManagedReference
+  private BlankShirt shirt;
 
-    @Column(name = "text")
-    private String text;
+  @Column(name = "text")
+  private String text;
 
-    @Column(name = "picture")
-    private String picture;
+  @Column(name = "picture")
+  private String picture;
 }

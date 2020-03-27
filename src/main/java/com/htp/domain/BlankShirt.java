@@ -16,32 +16,25 @@ import java.util.Set;
 @ToString(exclude = "designShirts")
 public class BlankShirt {
 
-    @Id
-    @Column(name = "id")
-    private String id;
+  @OneToMany(mappedBy = "shirt", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+  @JsonBackReference
+  Set<DesignShirt> designShirts;
+  @Id
+  @Column(name = "id")
+  private String id;
+  @Column(name = "size")
+  @Enumerated(value = EnumType.STRING)
+  private Size size;
+  @ManyToOne(fetch = FetchType.EAGER)
+  @JoinColumn(name = "color_id")
+  @JsonManagedReference
+  private Color color;
+  @Column(name = "quantity")
+  private int quantity;
+  @Column(name = "price")
+  private float price;
 
-    @Column(name = "size")
-    @Enumerated(value = EnumType.STRING)
-    private Size size;
-
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "color_id")
-    @JsonManagedReference
-    private Color color;
-
-    @Column(name = "quantity")
-    private int quantity;
-
-    @Column(name = "price")
-    private float price;
-
-    @OneToMany(mappedBy = "shirt", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JsonBackReference
-    Set<DesignShirt> designShirts;
-
-    public enum Size {
-        XS, S, M, L, XL, XXL
-    }
-
-
+  public enum Size {
+    XS, S, M, L, XL, XXL
+  }
 }
