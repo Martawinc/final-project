@@ -25,9 +25,9 @@ public class BlankShirt {
     private Size size;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "colour_id")
+    @JoinColumn(name = "color_id")
     @JsonManagedReference
-    private Colour colour;
+    private Color color;
 
     @Column(name = "quantity")
     private int quantity;

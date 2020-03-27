@@ -17,12 +17,12 @@ public interface BlankShirtRepository extends CrudRepository<BlankShirt, String>
     @Query("select shirt from BlankShirt shirt where shirt.price >= :price")
     List<BlankShirt> findGreaterPrice(float price);
 
-    @Query("select shirt from BlankShirt shirt where shirt.quantity <= :quantity")
-    List<BlankShirt> findLowerQuantity(int quantity);
+    @Query("select shirt from BlankShirt shirt where shirt.quantity between :min and :max")
+    List<BlankShirt> findBetweenQuantity(int min, int max);
 
-    @Query("select shirt from BlankShirt shirt join Colour c on shirt.colour.id = c.id " +
-            "where c.colorName = :colourName")
-    List<BlankShirt> findByColour(String colourName);
+    @Query("select shirt from BlankShirt shirt join Color c on shirt.color.id = c.id " +
+            "where c.colorName in (:colorList)")
+    List<BlankShirt> findByColor(List<String> colorList);
 
     @Modifying(flushAutomatically = true)
     @Query("update BlankShirt shirt set shirt.price = :price where shirt.id in(:list)")
