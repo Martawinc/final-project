@@ -1,5 +1,6 @@
 package com.htp.domain;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
@@ -25,5 +26,6 @@ public class Colour {
     private String colorName;
 
     @OneToMany(mappedBy = "colour", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JsonBackReference
     private Set<BlankShirt> blankShirts;
 }

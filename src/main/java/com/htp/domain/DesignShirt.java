@@ -1,5 +1,6 @@
 package com.htp.domain;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
@@ -21,6 +22,7 @@ public class DesignShirt {
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "blank_shirt_id")
+    @JsonManagedReference
     private BlankShirt shirt;
 
     @Column(name = "text")

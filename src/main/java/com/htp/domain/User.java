@@ -8,11 +8,13 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
-import java.util.*;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Date;
 
 @Entity
 @Table(name = "m_user")
-@FieldDefaults (level = AccessLevel.PRIVATE, makeFinal = true)
+@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 @NoArgsConstructor (force = true)
 @RequiredArgsConstructor
 @Data
