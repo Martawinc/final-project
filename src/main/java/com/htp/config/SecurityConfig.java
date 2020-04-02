@@ -30,28 +30,23 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
   @Override
   protected void configure(HttpSecurity http) throws Exception {
-    http
-            .csrf()
-            .disable()
-            .authorizeRequests()
-            .anyRequest()
-            .permitAll();
+    http.csrf().disable().authorizeRequests().anyRequest().permitAll();
 
-//    http
-//        .sessionManagement()
-//        .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)
-//      .and()
-//        .authorizeRequests()
-//          .antMatchers("/registration")
-//            .permitAll()
-//          .antMatchers("/*")
-//            .permitAll()
-//     .hasAuthority("ROLE_USER")
-//     .and()
-//        .formLogin()
-//        .loginPage("/login")
-//     .and()
-//        .logout()
-//    ;
+    //    http
+    //        .sessionManagement()
+    //        .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)
+    //      .and()
+    //        .authorizeRequests()
+    //          .antMatchers("/registration")
+    //            .permitAll()
+    //          .antMatchers("/*")
+    //            .permitAll()
+    //     .hasAuthority("ROLE_USER")
+    //     .and()
+    //        .formLogin()
+    //        .loginPage("/login")
+    //     .and()
+    //        .logout()
+    //    ;
   }
 }

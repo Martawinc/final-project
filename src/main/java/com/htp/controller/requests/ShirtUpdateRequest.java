@@ -2,7 +2,6 @@ package com.htp.controller.requests;
 
 import lombok.*;
 
-import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 @Data
@@ -11,7 +10,5 @@ import javax.validation.constraints.NotNull;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ShirtUpdateRequest extends ShirtCreateRequest {
-  @NotNull
-  @NotBlank
-  private String id;
+  @NotNull private String id;
 }
