@@ -1,4 +1,4 @@
-package com.htp.servise;
+package com.htp.service;
 
 import com.htp.domain.User;
 import com.htp.repository.UserRepository;

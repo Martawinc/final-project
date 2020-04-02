@@ -1,7 +1,10 @@
 package com.htp.domain;
 
-import lombok.*;
-import lombok.experimental.FieldDefaults;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 import lombok.experimental.NonFinal;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -11,50 +14,53 @@ import javax.persistence.*;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Date;
+import java.util.Set;
 
 @Entity
 @Table(name = "m_user")
-@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
-@NoArgsConstructor(force = true)
-@RequiredArgsConstructor
+@NoArgsConstructor()
 @Data
-@EqualsAndHashCode(exclude = "id") // +exclude Collections
-@ToString() // +exclude Collections
+@EqualsAndHashCode(exclude = {"id", "orders"}) // +exclude Collections
+@ToString(exclude = "orders") // +exclude Collections
 public class User implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     @NonFinal
-    Long id;
+    private Long id;
 
     @Column(name = "login")
-    String login;
+    private String login;
 
     @Column(name = "password")
-    String password;
+    private String password;
 
     @Column(name = "full_name")
-    String fullName;
+    private String fullName;
 
     @Column(name = "birth_date")
     @Temporal(TemporalType.DATE)
-    Date birthDate;
+    private Date birthDate;
 
     @Column(name = "city")
-    String city;
+    private String city;
 
     @Column(name = "street")
-    String street;
+    private String street;
 
     @Column(name = "zip")
-    Long zip;
+    private Long zip;
 
     @Column(name = "phone_number")
-    String phoneNumber;
+    private String phoneNumber;
 
     @Column(name = "mail")
-    String mail;
+    private String mail;
+
+    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JsonBackReference
+    private Set<Order> orders;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

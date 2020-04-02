@@ -1,5 +1,6 @@
 package com.htp.domain;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -7,6 +8,7 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 import javax.persistence.*;
+import java.util.Set;
 
 @Entity
 @Table(name = "design_shirt")
@@ -30,4 +32,11 @@ public class DesignShirt {
 
   @Column(name = "picture")
   private String picture;
+
+  @ManyToMany
+  @JsonBackReference
+  @JoinTable(name = "order_design_shirt",
+          joinColumns = @JoinColumn(name = "design_shirt_id"),
+          inverseJoinColumns = @JoinColumn(name = "order_id"))
+  public Set<Order> orders;
 }

@@ -1,39 +1,57 @@
 package com.htp.controller.requests;
 
 import com.htp.domain.User;
-import lombok.AccessLevel;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.experimental.FieldDefaults;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Past;
 import java.util.Date;
 
 @Data
 @NoArgsConstructor
-@FieldDefaults(level = AccessLevel.PRIVATE)
 public class UserCreateRequest {
 
-  String login;
-  String password;
-  String fullName;
-  Date birthDate;
-  String city;
-  String street;
-  Long zip;
-  String phoneNumber;
-  String mail;
+  @NotBlank(message = "Login is required")
+  private String login;
+
+  @NotBlank(message = "Password is required")
+  private String password;
+
+  @NotBlank(message = "FullName is required")
+  private String fullName;
+
+  @Past(message = "Birth date is required")
+  private Date birthDate;
+
+  @NotBlank(message = "City is required")
+  private String city;
+
+  @NotBlank(message = "Street is required")
+  private String street;
+
+  @NotBlank(message = "Zip code is required")
+  private Long zip;
+
+  @NotBlank(message = "Phone number is required")
+  private String phoneNumber;
+
+  @Email(message = "Not a valid e-mail")
+  private String mail;
 
   public User createUser(PasswordEncoder passwordEncoder) {
-    return new User(
-        login,
-        passwordEncoder.encode(password),
-        fullName,
-        birthDate,
-        city,
-        street,
-        zip,
-        phoneNumber,
-        mail);
+    User user = new User();
+    user.setLogin(login);
+    user.setPassword(passwordEncoder.encode(password));
+    user.setFullName(fullName);
+    user.setBirthDate(birthDate);
+    user.setCity(city);
+    user.setStreet(street);
+    user.setZip(zip);
+    user.setPhoneNumber(phoneNumber);
+    user.setMail(mail);
+    return user;
   }
 }

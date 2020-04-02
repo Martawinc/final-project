@@ -1,5 +1,6 @@
 package com.htp.controller;
 
+import com.htp.controller.requests.ShirtCreateRequest;
 import com.htp.domain.BlankShirt;
 import com.htp.repository.BlankShirtRepository;
 import io.swagger.annotations.ApiOperation;
@@ -7,10 +8,13 @@ import io.swagger.annotations.ApiParam;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import lombok.RequiredArgsConstructor;
+import org.springframework.core.convert.ConversionService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
 
@@ -22,11 +26,14 @@ public class ShirtController {
 
   private final BlankShirtRepository shirtRepo;
 
-  //    @PostMapping("/")
-  //    @Transactional
-  //    public ResponseEntity<BlankShirt> createNewShirt() {
-  //        return new ResponseEntity<>(new BlankShirt(), HttpStatus.CREATED);
-  //    }
+  private final ConversionService conversionService;
+
+  @PostMapping("/create")
+  @Transactional
+  public ResponseEntity<BlankShirt> createBlankShirt(@RequestBody @Valid ShirtCreateRequest request) {
+    BlankShirt convertedShirt = conversionService.convert(request, BlankShirt.class);
+    return new ResponseEntity<>(shirtRepo.saveAndFlush(convertedShirt), HttpStatus.CREATED);
+  }
 
   @ApiOperation(value = "Find blank tee-shirt by id")
   @ApiResponses({
@@ -74,7 +81,7 @@ public class ShirtController {
       @ApiParam(value = "max quantity") @RequestParam(name = "max") String max) {
     try {
       List<BlankShirt> shirts =
-          shirtRepo.findBetweenQuantity(Integer.valueOf(min), Integer.valueOf(max));
+          shirtRepo.findBetweenQuantity(Integer.parseInt(min), Integer.valueOf(max));
       if (!shirts.isEmpty()) {
         return new ResponseEntity<>(shirts, HttpStatus.OK);
       }
@@ -102,5 +109,27 @@ public class ShirtController {
       return new ResponseEntity<>(shirts, HttpStatus.OK);
     }
     return new ResponseEntity<>(null, HttpStatus.NO_CONTENT);
+  }
+
+  @ApiOperation(value = "Blank tee-shirts with price between max and min")
+  @ApiResponses({
+    @ApiResponse(code = 200, message = "Successful getting tee-shirts with selected price"),
+    @ApiResponse(code = 204, message = "Tee-shirts between max and min price not found"),
+    @ApiResponse(code = 400, message = "Invalid parameter value"),
+    @ApiResponse(code = 500, message = "Server error, something wrong")
+  })
+  @GetMapping("/price")
+  public ResponseEntity<List<BlankShirt>> blankShirtPriceFilter(
+      @ApiParam(value = "min price") @RequestParam(name = "min") String min,
+      @ApiParam(value = "max price") @RequestParam(name = "max") String max) {
+    try {
+      List<BlankShirt> shirts = shirtRepo.findBetweenPrice(Float.valueOf(min), Float.valueOf(max));
+      if (!shirts.isEmpty()) {
+        return new ResponseEntity<>(shirts, HttpStatus.OK);
+      }
+      return new ResponseEntity<>(null, HttpStatus.NO_CONTENT);
+    } catch (NumberFormatException ex) {
+      return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+    }
   }
 }

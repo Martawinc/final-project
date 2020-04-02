@@ -14,8 +14,8 @@ public interface BlankShirtRepository
 
   List<BlankShirt> findBySize(BlankShirt.Size size);
 
-  @Query("select shirt from BlankShirt shirt where shirt.price >= :price")
-  List<BlankShirt> findGreaterPrice(float price);
+  @Query("select shirt from BlankShirt shirt where shirt.price between :min and :max")
+  List<BlankShirt> findBetweenPrice(float min, float max);
 
   @Query("select shirt from BlankShirt shirt where shirt.quantity between :min and :max")
   List<BlankShirt> findBetweenQuantity(int min, int max);

@@ -10,8 +10,6 @@ import org.springframework.orm.jpa.JpaVendorAdapter;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
 import java.util.Objects;
 import java.util.Properties;
@@ -38,11 +36,6 @@ public class DatabaseConfig {
     dataSource.setInitialSize(Integer.valueOf(Objects.requireNonNull(initialSize)));
     dataSource.setMaxActive(Integer.valueOf(Objects.requireNonNull(maxActive)));
     return dataSource;
-  }
-
-  @Bean(name = "entityManager")
-  public EntityManager getEntityManager(EntityManagerFactory entityManagerFactory) {
-    return entityManagerFactory.createEntityManager();
   }
 
   @Bean(name = "entityManagerFactory")
