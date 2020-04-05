@@ -31,7 +31,7 @@ public class User implements UserDetails {
     private Long id;
 
     @Column(name = "login")
-    private String login;
+    private String username;
 
     @Column(name = "password")
     private String password;
@@ -65,11 +65,6 @@ public class User implements UserDetails {
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return Arrays.asList(new SimpleGrantedAuthority("ROLE_USER"));
-    }
-
-    @Override
-    public String getUsername() {
-        return this.getLogin();
     }
 
     @Override

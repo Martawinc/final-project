@@ -4,9 +4,9 @@ import com.htp.controller.requests.UserCreateRequest;
 import com.htp.domain.User;
 import com.htp.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.core.convert.ConversionService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -21,12 +21,12 @@ import javax.validation.Valid;
 public class RegistrationController {
 
   private final UserRepository userRepo;
-  private final PasswordEncoder encoder;
+  private final ConversionService conversionService;
 
   @PostMapping
   @Transactional
-  public ResponseEntity<User> registrationProcess(@Valid @RequestBody UserCreateRequest form) {
-    User user = userRepo.save((form.createUser(encoder)));
-    return new ResponseEntity<>(user, HttpStatus.CREATED);
+  public ResponseEntity<User> registrationProcess(@RequestBody @Valid UserCreateRequest form) {
+    User convertedUser = conversionService.convert(form, User.class);
+    return new ResponseEntity<>(userRepo.saveAndFlush(convertedUser), HttpStatus.CREATED);
   }
 }

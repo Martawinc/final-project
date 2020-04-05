@@ -5,3 +5,7 @@ datasource:
   password: root
   initialSize: 10
   maxActive: 7
+---
+jwt-token:
+  secret: designShirt
+  expire: 157784760000

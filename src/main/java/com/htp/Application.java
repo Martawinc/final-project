@@ -1,9 +1,6 @@
 package com.htp;
 
-import com.htp.config.DatabaseConfig;
-import com.htp.config.SecurityConfig;
-import com.htp.config.SwaggerConfig;
-import com.htp.config.TransactionConfig;
+import com.htp.config.*;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.jackson.JacksonAutoConfiguration;
@@ -21,12 +18,14 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @EnableAspectJAutoProxy
 @SpringBootApplication(
     scanBasePackages = {"com.htp"},
-    exclude = {JacksonAutoConfiguration.class,
-            HibernateJpaAutoConfiguration.class})
-@Import({DatabaseConfig.class,
-        TransactionConfig.class,
-        SecurityConfig.class,
-        SwaggerConfig.class})
+    exclude = {JacksonAutoConfiguration.class, HibernateJpaAutoConfiguration.class})
+@Import({
+  DatabaseConfig.class,
+  TransactionConfig.class,
+  SecurityConfig.class,
+  JwtTokenConfig.class,
+  SwaggerConfig.class
+})
 public class Application extends SpringBootServletInitializer {
   public static void main(String[] args) {
 

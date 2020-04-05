@@ -3,16 +3,18 @@ package com.htp.config;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.crypto.password.StandardPasswordEncoder;
 
 @Configuration
 @EnableWebSecurity
+//@EnableGlobalMethodSecurity
 @RequiredArgsConstructor
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
@@ -20,7 +22,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
   @Bean
   public PasswordEncoder encoder() {
-    return new StandardPasswordEncoder("66rt7o");
+    return new BCryptPasswordEncoder();
+  }
+
+  @Bean (name = "authenticationManager")
+  @Override
+  public AuthenticationManager authenticationManagerBean() throws Exception {
+    return super.authenticationManagerBean();
   }
 
   @Override
@@ -30,23 +38,26 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
   @Override
   protected void configure(HttpSecurity http) throws Exception {
-    http.csrf().disable().authorizeRequests().anyRequest().permitAll();
-
-    //    http
-    //        .sessionManagement()
-    //        .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)
-    //      .and()
-    //        .authorizeRequests()
-    //          .antMatchers("/registration")
-    //            .permitAll()
-    //          .antMatchers("/*")
-    //            .permitAll()
-    //     .hasAuthority("ROLE_USER")
-    //     .and()
-    //        .formLogin()
-    //        .loginPage("/login")
-    //     .and()
-    //        .logout()
-    //    ;
+    http.csrf()
+        .disable()
+        .exceptionHandling()
+        .and()
+        .authorizeRequests()
+        .antMatchers(
+            "/v2/api-docs",
+            "/configuration/ui/**",
+            "/swagger-resources/**",
+            "/configuration/security/**",
+            "/swagger-ui.html",
+            "/webjars/**")
+        .permitAll()
+        .antMatchers("/login/**")
+        .permitAll()
+        .antMatchers("/registration/**")
+        .permitAll()
+        .antMatchers("/rest/**")
+        .hasRole("USER")
+        .antMatchers("/**")
+        .permitAll();
   }
 }
