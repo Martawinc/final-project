@@ -30,13 +30,12 @@ public class DesignShirt {
   @Column(name = "text")
   private String text;
 
-  @Column(name = "picture")
-  private String picture;
-
   @ManyToMany
   @JsonBackReference
   @JoinTable(name = "order_design_shirt",
           joinColumns = @JoinColumn(name = "design_shirt_id"),
           inverseJoinColumns = @JoinColumn(name = "order_id"))
-  public Set<Order> orders;
+  public Set<Order> ordersWithDesignShirts;
+  @Column(name = "image_link")
+  private String imageLink;
 }

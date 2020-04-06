@@ -1,7 +1,5 @@
-package com.htp.security.filter;
+package com.htp.security;
 
-import com.htp.security.ApplicationHeaders;
-import com.htp.security.util.TokenUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;

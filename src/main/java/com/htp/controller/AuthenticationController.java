@@ -3,7 +3,7 @@ package com.htp.controller;
 import com.htp.controller.requests.AuthRequest;
 import com.htp.controller.responses.AuthResponse;
 import com.htp.repository.UserRepository;
-import com.htp.security.util.TokenUtils;
+import com.htp.security.TokenUtils;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -23,26 +23,26 @@ import javax.validation.Valid;
 @RequiredArgsConstructor
 public class AuthenticationController {
 
-    private final UserRepository userRepository;
-    private final AuthenticationManager authenticationManager;
-    private final TokenUtils tokenUtils;
+  private final UserRepository userRepository;
+  private final AuthenticationManager authenticationManager;
+  private final TokenUtils tokenUtils;
 
-    @ApiOperation(value = "User authentication process", notes = "method returns user's login and auth-token")
-    @PostMapping
-    public ResponseEntity<AuthResponse> login(@RequestBody @Valid AuthRequest authRequest) {
-        Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
-                authRequest.getUsername(),
-                authRequest.getPassword()
-        ));
+  @ApiOperation(
+      value = "User authentication process",
+      notes = "method returns user's login and auth-token")
+  @PostMapping
+  public ResponseEntity<AuthResponse> login(@RequestBody @Valid AuthRequest authRequest) {
+    Authentication authentication =
+        authenticationManager.authenticate(
+            new UsernamePasswordAuthenticationToken(
+                authRequest.getUsername(), authRequest.getPassword()));
 
-        SecurityContextHolder.getContext().setAuthentication(authentication);
+    SecurityContextHolder.getContext().setAuthentication(authentication);
 
-        final String token =  tokenUtils.generateToken(userRepository.findByUsername(authRequest.getUsername()));
+    final String token =
+        tokenUtils.generateToken(userRepository.findByUsername(authRequest.getUsername()));
 
-        return ResponseEntity.ok(AuthResponse
-                .builder()
-                .login(authRequest.getUsername())
-                .token(token)
-                .build());
-    }
+    return ResponseEntity.ok(
+        AuthResponse.builder().login(authRequest.getUsername()).token(token).build());
+  }
 }

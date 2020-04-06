@@ -16,6 +16,7 @@
         <lombok.version>1.18.12</lombok.version>
         <swagger.version>2.9.2</swagger.version>
         <jwt.token.version>0.9.1</jwt.token.version>
+        <amazon.s3.version>2.10.56</amazon.s3.version>
         <javassist.version>3.26.0-GA</javassist.version>
     </properties>
 
@@ -123,6 +124,12 @@
             <groupId>io.jsonwebtoken</groupId>
             <artifactId>jjwt</artifactId>
             <version>${jwt.token.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>software.amazon.awssdk</groupId>
+            <artifactId>s3</artifactId>
+            <version>${amazon.s3.version}</version>
         </dependency>
 
         <dependency>

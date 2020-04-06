@@ -1,4 +1,4 @@
-package com.htp.security.util;
+package com.htp.security;
 
 import com.htp.config.JwtTokenConfig;
 import io.jsonwebtoken.Claims;
