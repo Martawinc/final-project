@@ -8,14 +8,15 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 import javax.persistence.*;
+import java.util.Collections;
 import java.util.Set;
 
 @Entity
 @Table(name = "design_shirt")
 @NoArgsConstructor
 @Data
-@EqualsAndHashCode(exclude = "id") // +exclude Collections
-@ToString() // +exclude Collections
+@EqualsAndHashCode(exclude = {"id, shirt, ordersWithDesignShirts"})
+@ToString(exclude = {"shirt, ordersWithDesignShirts"})
 public class DesignShirt {
 
   @Id
@@ -30,12 +31,10 @@ public class DesignShirt {
   @Column(name = "text")
   private String text;
 
-  @ManyToMany
-  @JsonBackReference
-  @JoinTable(name = "order_design_shirt",
-          joinColumns = @JoinColumn(name = "design_shirt_id"),
-          inverseJoinColumns = @JoinColumn(name = "order_id"))
-  public Set<Order> ordersWithDesignShirts;
   @Column(name = "image_link")
   private String imageLink;
+
+  @ManyToMany(mappedBy = "designShirts", fetch = FetchType.EAGER)
+  @JsonBackReference
+  private Set<Order> orders = Collections.emptySet();
 }

@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 import javax.persistence.*;
+import java.util.Collections;
 import java.util.Set;
 
 @Entity
@@ -27,5 +28,5 @@ public class Color {
 
   @OneToMany(mappedBy = "color", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
   @JsonBackReference
-  private Set<BlankShirt> blankShirts;
+  private Set<BlankShirt> blankShirts = Collections.emptySet();
 }

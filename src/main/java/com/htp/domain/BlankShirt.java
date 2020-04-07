@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 import javax.persistence.*;
+import java.util.Collections;
 import java.util.Set;
 
 @Entity
@@ -39,7 +40,7 @@ public class BlankShirt {
 
   @OneToMany(mappedBy = "shirt", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
   @JsonBackReference
-  Set<DesignShirt> designShirts;
+  Set<DesignShirt> designShirts = Collections.emptySet();
 
   public enum Size {
     XS,
