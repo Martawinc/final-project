@@ -44,7 +44,7 @@ public class Order {
 
   @Column(name = "placed_at")
   @Temporal(TemporalType.DATE)
-  private Date placed_at;
+  private Date placedAt;
 
   @ManyToOne(fetch = FetchType.EAGER)
   @JoinColumn(name = "user_id")

@@ -9,3 +9,11 @@ datasource:
 jwt-token:
   secret: designShirt
   expire: 157784760000
+---
+amazon:
+  serverURL: https://s3.console.aws.amazon.com/s3/object
+  awsAccessKeyId: AKIAVMRW4SLWV3ADI54B
+  awsSecretKey: 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
+  folder: images
+  bucket: teeshirtdesign
+  region: eu-north-1

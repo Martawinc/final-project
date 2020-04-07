@@ -5,7 +5,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotNull;
-import java.util.Date;
 import java.util.Set;
 
 @Data
@@ -23,8 +22,6 @@ public class OrderCreateRequest {
   @NotNull private String cardExpiration;
 
   @NotNull private String cardCVV;
-
-  @NotNull private Date placed_at;
 
   @NotNull private String userId;
 
