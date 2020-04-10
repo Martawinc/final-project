@@ -1,6 +1,10 @@
 package com.htp;
 
-import com.htp.config.*;
+import com.htp.config.DatabaseConfig;
+import com.htp.config.JwtTokenConfig;
+import com.htp.config.SecurityConfig;
+import com.htp.config.SwaggerConfig;
+import com.htp.config.TransactionConfig;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.jackson.JacksonAutoConfiguration;

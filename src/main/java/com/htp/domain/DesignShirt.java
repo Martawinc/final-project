@@ -7,7 +7,16 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 import java.util.Collections;
 import java.util.Set;
 
@@ -15,8 +24,8 @@ import java.util.Set;
 @Table(name = "design_shirt")
 @NoArgsConstructor
 @Data
-@EqualsAndHashCode(exclude = {"id, shirt, ordersWithDesignShirts"})
-@ToString(exclude = {"shirt, ordersWithDesignShirts"})
+@EqualsAndHashCode(exclude = {"id, shirt, orders"})
+@ToString(exclude = {"shirt, orders"})
 public class DesignShirt {
 
   @Id
@@ -34,7 +43,7 @@ public class DesignShirt {
   @Column(name = "image_link")
   private String imageLink;
 
-  @ManyToMany(mappedBy = "designShirts", fetch = FetchType.EAGER)
+  @ManyToMany(mappedBy = "designShirts", fetch = FetchType.LAZY)
   @JsonBackReference
   private Set<Order> orders = Collections.emptySet();
 }

@@ -23,7 +23,5 @@ public class OrderCreateRequest {
 
   @NotNull private String cardCVV;
 
-  @NotNull private String userId;
-
   @NotNull private Set<String> designShirtIdSet;
 }

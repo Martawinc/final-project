@@ -1,5 +1,5 @@
 package com.htp.security;
 
-public interface ApplicationHeaders {
+public interface Headers {
     String AUTH_TOKEN = "Auth-Token";
 }
