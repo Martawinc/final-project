@@ -26,7 +26,7 @@ public class TokenUtils {
   private String generateToken(Map<String, Object> claims) {
     return Jwts
             .builder()
-            .setClaims(claims) // + setHeader?
+            .setClaims(claims)
             .setExpiration(generateExpirationDate())
             .signWith(SignatureAlgorithm.HS512, tokenConfig.getSecret())
             .compact();

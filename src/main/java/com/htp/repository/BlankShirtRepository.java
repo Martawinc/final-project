@@ -4,21 +4,19 @@ import com.htp.domain.BlankShirt;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 
-public interface BlankShirtRepository
-    extends CrudRepository<BlankShirt, String>, JpaRepository<BlankShirt, String> {
+public interface BlankShirtRepository extends JpaRepository<BlankShirt, String> {
 
   List<BlankShirt> findBySize(BlankShirt.Size size);
 
-  @Query("select shirt from BlankShirt shirt where shirt.price between :min and :max")
-  List<BlankShirt> findBetweenPrice(float min, float max);
+  List<BlankShirt> findByIdIn(List<String> id);
 
-  @Query("select shirt from BlankShirt shirt where shirt.quantity between :min and :max")
-  List<BlankShirt> findBetweenQuantity(int min, int max);
+  List<BlankShirt> findByPriceBetween(float min, float max);
+
+  List<BlankShirt> findByQuantityBetween(int min, int max);
 
   @Query(
       "select shirt from BlankShirt shirt join Color c on shirt.color.id = c.id "
@@ -26,6 +24,10 @@ public interface BlankShirtRepository
   List<BlankShirt> findByColor(List<String> colorList);
 
   @Modifying(flushAutomatically = true)
-  @Query("update BlankShirt shirt set shirt.price = :price where shirt.id in(:list)")
-  int updateShirtPrice(@Param("price") float price, @Param("list") List<String> shirtId);
+  @Query("update BlankShirt shirt set shirt.price = :price where shirt.id = :id")
+  int updatePrice(@Param("price") float price, @Param("id") String id);
+
+  @Modifying(flushAutomatically = true)
+  @Query("update BlankShirt shirt set shirt.quantity = :quantity where shirt.id = :id")
+  int updateQuantity(@Param("quantity") int quantity, @Param("id") String id);
 }

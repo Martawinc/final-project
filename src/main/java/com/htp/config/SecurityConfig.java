@@ -13,11 +13,9 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
 @EnableWebSecurity
-// @EnableGlobalMethodSecurity
 @RequiredArgsConstructor
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
@@ -41,12 +39,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
   }
 
   @Bean
-  public AuthenticationTokenFilter authenticationTokenFilter(
-      AuthenticationManager authenticationManager) {
-    AuthenticationTokenFilter authenticationTokenFilter =
-        new AuthenticationTokenFilter(tokenUtils, userDetailsService);
-    authenticationTokenFilter.setAuthenticationManager(authenticationManager);
-    return authenticationTokenFilter;
+  public AuthenticationTokenFilter authenticationTokenFilter() throws Exception {
+    return new AuthenticationTokenFilter(
+        tokenUtils, userDetailsService, authenticationManagerBean());
   }
 
   @Override
@@ -70,10 +65,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         .permitAll()
         .antMatchers("/rest/**")
         .hasRole("USER")
-    // .antMatchers("/**").permitAll()
+    .antMatchers("/**").permitAll()
     ;
-    http.addFilterBefore(
-        authenticationTokenFilter(authenticationManagerBean()),
-        UsernamePasswordAuthenticationFilter.class);
   }
 }

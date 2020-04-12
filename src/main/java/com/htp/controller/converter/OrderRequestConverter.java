@@ -27,7 +27,7 @@ public abstract class OrderRequestConverter<S, T> extends EntityConverter<S, T> 
   protected Order convertToOrder(Order order, OrderCreateRequest request) {
 
     Set<DesignShirt> designShirts =
-        designShirtRepo.findByIdList(
+        designShirtRepo.findByIdInAndDeletedFalse(
             request.getDesignShirtIdSet().stream()
                 .map(x -> Long.valueOf(x))
                 .collect(Collectors.toList()));

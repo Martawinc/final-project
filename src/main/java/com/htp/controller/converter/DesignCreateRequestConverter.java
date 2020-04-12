@@ -5,6 +5,8 @@ import com.htp.domain.DesignShirt;
 import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Component;
 
+import java.util.Date;
+
 @Component
 @NoArgsConstructor
 public class DesignCreateRequestConverter
@@ -13,6 +15,7 @@ public class DesignCreateRequestConverter
   @Override
   public DesignShirt convert(DesignCreateRequest request) {
     DesignShirt designShirt = new DesignShirt();
+    designShirt.setCreationDate(new Date());
     return convertToDesignShirt(designShirt, request);
   }
 }

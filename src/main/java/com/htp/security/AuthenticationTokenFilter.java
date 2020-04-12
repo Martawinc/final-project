@@ -1,6 +1,7 @@
 package com.htp.security;
 
-import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -15,11 +16,20 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 
-@RequiredArgsConstructor
 public class AuthenticationTokenFilter extends UsernamePasswordAuthenticationFilter {
 
   private final TokenUtils tokenUtils;
   private final UserDetailsService userDetailsService;
+
+  @Autowired
+  public AuthenticationTokenFilter(
+      TokenUtils tokenUtils,
+      UserDetailsService userDetailsService,
+      AuthenticationManager authenticationManager) {
+    this.tokenUtils = tokenUtils;
+    this.userDetailsService = userDetailsService;
+    super.setAuthenticationManager(authenticationManager);
+  }
 
   @Override
   public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
@@ -29,7 +39,6 @@ public class AuthenticationTokenFilter extends UsernamePasswordAuthenticationFil
     String token = httpRequest.getHeader(Headers.AUTH_TOKEN);
 
     if (token != null) {
-
       String username = tokenUtils.getUsernameFromToken(token);
 
       if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {

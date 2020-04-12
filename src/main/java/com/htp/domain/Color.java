@@ -34,7 +34,7 @@ public class Color {
   @Column(name = "color_name")
   private String colorName;
 
-  @OneToMany(mappedBy = "color", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+  @OneToMany(mappedBy = "color", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
   @JsonBackReference
   private Set<BlankShirt> blankShirts = Collections.emptySet();
 }

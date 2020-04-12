@@ -17,15 +17,18 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import java.util.Collections;
+import java.util.Date;
 import java.util.Set;
 
 @Entity
 @Table(name = "design_shirt")
 @NoArgsConstructor
 @Data
-@EqualsAndHashCode(exclude = {"id, shirt, orders"})
-@ToString(exclude = {"shirt, orders"})
+@EqualsAndHashCode(exclude = {"id", "orders"})
+@ToString(exclude = "orders")
 public class DesignShirt {
 
   @Id
@@ -42,6 +45,16 @@ public class DesignShirt {
 
   @Column(name = "image_link")
   private String imageLink;
+
+  @Column(name = "total_price")
+  private float totalPrice;
+
+  @Column(name = "creation_date")
+  @Temporal(TemporalType.DATE)
+  private Date creationDate;
+
+  @Column(name = "is_deleted")
+  private boolean deleted;
 
   @ManyToMany(mappedBy = "designShirts", fetch = FetchType.LAZY)
   @JsonBackReference

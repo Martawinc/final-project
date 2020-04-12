@@ -48,7 +48,7 @@ public class BlankShirt {
   @Column(name = "price")
   private float price;
 
-  @OneToMany(mappedBy = "shirt", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+  @OneToMany(mappedBy = "shirt", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
   @JsonBackReference
   Set<DesignShirt> designShirts = Collections.emptySet();
 
