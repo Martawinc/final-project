@@ -38,8 +38,6 @@ public class ShirtController {
 
   private final ConversionService conversionService;
 
-  @PostMapping("/admin/tee-shirt")
-  @Transactional(rollbackOn = Exception.class)
   @ApiOperation(
       value = "Create new tee-shirt article from supplier with initial price and quantity",
       notes = "This can only be done by admin")
@@ -47,6 +45,8 @@ public class ShirtController {
     @ApiResponse(code = 201, message = "New tee-shirt is created"),
     @ApiResponse(code = 500, message = "Server error, something wrong")
   })
+  @Transactional(rollbackOn = Exception.class)
+  @PostMapping("/admin/tee-shirt")
   public ResponseEntity<BlankShirt> createBlankShirt(
       @RequestBody @Valid ShirtCreateRequest request) {
     BlankShirt convertedShirt = conversionService.convert(request, BlankShirt.class);
@@ -77,8 +77,7 @@ public class ShirtController {
   @GetMapping("/tee-shirt/size")
   public ResponseEntity<List<BlankShirt>> blankShirtBySize(
       @ApiParam(value = "Size by which need to filter blank tee-shirts")
-          @RequestParam(name = "size")
-          BlankShirt.Size size) {
+      @RequestParam(name = "size") BlankShirt.Size size) {
     List<BlankShirt> shirts = shirtRepo.findBySize(size);
     if (!shirts.isEmpty()) {
       return new ResponseEntity<>(shirts, HttpStatus.OK);
@@ -190,8 +189,7 @@ public class ShirtController {
   @Transactional(rollbackOn = Exception.class)
   @PutMapping("admin/tee-shirt/price")
   public ResponseEntity<List<BlankShirt>> updatePriceByIdList(
-      @ApiParam(value = "List of tee-shirt ids that need to be updated") @RequestParam
-          List<String> ids,
+      @ApiParam(value = "List of tee-shirt ids that need to be updated") @RequestParam List<String> ids,
       @ApiParam(value = "New price") @RequestParam String price) {
     try {
       List<BlankShirt> shirts = shirtRepo.findByIdIn(ids);

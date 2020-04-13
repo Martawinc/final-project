@@ -53,8 +53,6 @@ public class DesignController {
   private final PriceListConfig priceList;
   private final BlankShirtRepository blankShirtRepo;
 
-  @PostMapping()
-  @Transactional(rollbackOn = Exception.class)
   @ApiOperation(
       value = "Create new design shirt",
       notes = "Choose color and size for tee-shirt and add your text print")
@@ -62,6 +60,8 @@ public class DesignController {
     @ApiResponse(code = 201, message = "New designed tee-shirt is created"),
     @ApiResponse(code = 500, message = "Server error, something wrong")
   })
+  @Transactional(rollbackOn = Exception.class)
+  @PostMapping()
   public ResponseEntity<DesignShirt> createDesignShirt(
       @RequestBody @Valid DesignCreateRequest request) {
     DesignShirt convertedDesignShirts = conversionService.convert(request, DesignShirt.class);
@@ -69,8 +69,6 @@ public class DesignController {
         designShirtRepo.saveAndFlush(convertedDesignShirts), HttpStatus.CREATED);
   }
 
-  @PutMapping()
-  @Transactional(rollbackOn = Exception.class)
   @ApiOperation(
       value = "Update selected design shirt",
       notes = "Can change color, size or text print")
@@ -78,6 +76,8 @@ public class DesignController {
     @ApiResponse(code = 200, message = "Designed tee-shirt is updated"),
     @ApiResponse(code = 500, message = "Server error, something wrong")
   })
+  @Transactional(rollbackOn = Exception.class)
+  @PutMapping()
   public ResponseEntity<DesignShirt> updateDesignShirt(
       @RequestBody @Valid DesignUpdateRequest request) {
     DesignShirt convertedDesignShirts = conversionService.convert(request, DesignShirt.class);
@@ -85,13 +85,13 @@ public class DesignController {
         designShirtRepo.saveAndFlush(convertedDesignShirts), HttpStatus.OK);
   }
 
-  @PutMapping("/image/{id}")
-  @Transactional(rollbackOn = Exception.class)
   @ApiOperation(value = "Attach image for your design tee-shirt")
   @ApiResponses({
     @ApiResponse(code = 200, message = "Image saved for selected designed tee-shirt"),
     @ApiResponse(code = 500, message = "Server error, something wrong")
   })
+  @Transactional(rollbackOn = Exception.class)
+  @PutMapping("/image/{id}")
   public ResponseEntity<DesignShirt> saveUpdateImage(
       @ApiParam(value = "Id of tee-shirt you add image print") @PathVariable("id") String id,
       @RequestBody MultipartFile image) throws IOException {

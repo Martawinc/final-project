@@ -7,12 +7,12 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.core.convert.ConversionService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.transaction.Transactional;
 import javax.validation.Valid;
 
 @RestController
@@ -23,8 +23,8 @@ public class RegistrationController {
   private final UserRepository userRepo;
   private final ConversionService conversionService;
 
+  @Transactional(rollbackOn = Exception.class)
   @PostMapping
-  @Transactional
   public ResponseEntity<User> registrationProcess(@RequestBody @Valid UserCreateRequest form) {
     User convertedUser = conversionService.convert(form, User.class);
     return new ResponseEntity<>(userRepo.saveAndFlush(convertedUser), HttpStatus.CREATED);

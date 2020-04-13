@@ -1,5 +1,6 @@
 package com.htp.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -46,12 +47,15 @@ public class Order {
   @Column(name = "zip")
   private String zip;
 
+  @JsonIgnore
   @Column(name = "card_number")
   private String cardNumber;
 
+  @JsonIgnore
   @Column(name = "card_expiration")
   private String cardExpiration;
 
+  @JsonIgnore
   @Column(name = "cardCVV")
   private String cardCVV;
 

@@ -1,6 +1,7 @@
 package com.htp.controller.converter;
 
 import com.htp.config.PriceListConfig;
+import com.htp.controller.exceptions.NotEnoughShirtsException;
 import com.htp.controller.requests.DesignCreateRequest;
 import com.htp.domain.BlankShirt;
 import com.htp.domain.DesignShirt;
@@ -29,10 +30,10 @@ public abstract class DesignRequestConverter<S, T> extends EntityConverter<S, T>
   protected DesignShirt convertToDesignShirt(DesignShirt designShirt, DesignCreateRequest request) {
 
     BlankShirt shirt =
-        shirtRepo.findById(request.getShirtId()).orElseThrow(() -> new EntityNotFoundException());
+        shirtRepo.findById(request.getShirtId()).orElseThrow(EntityNotFoundException::new);
 
     if (shirt.getQuantity() == 0) {
-      // return new Exception
+      throw new NotEnoughShirtsException("Shirts with id '" + shirt.getId() +"' not enough for making design");
     }
     shirtRepo.updateQuantity(
         designShirt.getShirt().getQuantity() + 1, designShirt.getShirt().getId());

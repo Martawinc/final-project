@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -24,17 +23,16 @@ import java.util.Optional;
 
 @RestController
 @CrossOrigin
-@RequestMapping(value = "/rest/users")
+@RequestMapping(value = "/user")
 @RequiredArgsConstructor
 public class UserController {
 
   private final UserRepository userRepo;
 
-  @GetMapping("/all")
   @ApiImplicitParams({
     @ApiImplicitParam(name = Headers.AUTH_TOKEN, value = "token", required = true, dataType = "string", paramType = "header" )
   })
-  @ResponseStatus(HttpStatus.OK)
+  @GetMapping("/all")
   public ResponseEntity<List<User>> getAllUsers() {
     return new ResponseEntity<>(userRepo.findAll(), HttpStatus.OK);
   }
