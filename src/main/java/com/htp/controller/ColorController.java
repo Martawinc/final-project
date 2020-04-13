@@ -2,6 +2,9 @@ package com.htp.controller;
 
 import com.htp.domain.Color;
 import com.htp.repository.ColorRepository;
+import com.htp.security.Headers;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import io.swagger.annotations.ApiResponse;
@@ -37,6 +40,9 @@ public class ColorController {
     @ApiResponse(code = 404, message = "Color not found"),
     @ApiResponse(code = 500, message = "Server error, something wrong")
   })
+  @ApiImplicitParams({
+    @ApiImplicitParam(name = Headers.AUTH_TOKEN, value = "token", required = true, dataType = "string", paramType = "header" )
+  })
   @GetMapping("/{id}")
   public ResponseEntity<Color> colorById(
       @ApiParam(value = "Id of color that need to be found") @PathVariable("id") String id) {
@@ -55,6 +61,9 @@ public class ColorController {
     @ApiResponse(code = 201, message = "New color is created"),
     @ApiResponse(code = 500, message = "Server error, something wrong")
   })
+  @ApiImplicitParams({
+    @ApiImplicitParam(name = Headers.AUTH_TOKEN, value = "token", required = true, dataType = "string", paramType = "header" )
+  })
   @Transactional(rollbackOn = Exception.class)
   @PostMapping()
   public ResponseEntity<Color> createNewColor(
@@ -70,6 +79,9 @@ public class ColorController {
     @ApiResponse(code = 400, message = "Invalid color id"),
     @ApiResponse(code = 404, message = "Color not found"),
     @ApiResponse(code = 500, message = "Server error, something wrong")
+  })
+  @ApiImplicitParams({
+    @ApiImplicitParam(name = Headers.AUTH_TOKEN, value = "token", required = true, dataType = "string", paramType = "header" )
   })
   @Transactional(rollbackOn = Exception.class)
   @PutMapping("/{id}")
@@ -94,6 +106,9 @@ public class ColorController {
     @ApiResponse(code = 204, message = "Successful deleting color"),
     @ApiResponse(code = 400, message = "Invalid color id"),
     @ApiResponse(code = 500, message = "Server error, something wrong")
+  })
+  @ApiImplicitParams({
+    @ApiImplicitParam(name = Headers.AUTH_TOKEN, value = "token", required = true, dataType = "string", paramType = "header" )
   })
   @Transactional(rollbackOn = Exception.class)
   @DeleteMapping("/{id}")

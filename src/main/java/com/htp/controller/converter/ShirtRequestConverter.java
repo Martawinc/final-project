@@ -25,7 +25,7 @@ public abstract class ShirtRequestConverter<S, T> extends EntityConverter<S, T> 
         colorRepo.findById(request.getColorId()).orElseThrow(() -> new EntityNotFoundException());
 
     shirt.setId(request.getId());
-    shirt.setSize(BlankShirt.Size.valueOf(request.getSize())); // IllegalArgumentException
+    shirt.setSize(BlankShirt.Size.valueOf(request.getSize().toUpperCase()));
     shirt.setColor(color);
     shirt.setQuantity(request.getQuantity());
     shirt.setPrice(request.getPrice());

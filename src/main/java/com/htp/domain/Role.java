@@ -27,20 +27,15 @@ import java.util.Set;
 @ToString(exclude = "users")
 public class Role implements GrantedAuthority {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
-    private Long id;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @Column(name = "id")
+  private Long id;
 
-    @Column(name = "role_name")
-    private String roleName;
+  @Column(name = "role_name")
+  private String authority;
 
-    @OneToMany(mappedBy = "role", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JsonBackReference
-    private Set<User> users = Collections.emptySet();
-
-    @Override
-    public String getAuthority() {
-        return roleName;
-    }
+  @OneToMany(mappedBy = "role", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+  @JsonBackReference
+  private Set<User> users = Collections.emptySet();
 }

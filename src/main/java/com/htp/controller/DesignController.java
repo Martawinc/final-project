@@ -7,6 +7,7 @@ import com.htp.domain.Color;
 import com.htp.domain.DesignShirt;
 import com.htp.repository.BlankShirtRepository;
 import com.htp.repository.DesignShirtRepository;
+import com.htp.security.Headers;
 import com.htp.service.AmazonUploadFileService;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -60,6 +61,9 @@ public class DesignController {
     @ApiResponse(code = 201, message = "New designed tee-shirt is created"),
     @ApiResponse(code = 500, message = "Server error, something wrong")
   })
+  @ApiImplicitParams({
+    @ApiImplicitParam(name = Headers.AUTH_TOKEN, value = "token", required = true, dataType = "string", paramType = "header" )
+  })
   @Transactional(rollbackOn = Exception.class)
   @PostMapping()
   public ResponseEntity<DesignShirt> createDesignShirt(
@@ -76,6 +80,9 @@ public class DesignController {
     @ApiResponse(code = 200, message = "Designed tee-shirt is updated"),
     @ApiResponse(code = 500, message = "Server error, something wrong")
   })
+  @ApiImplicitParams({
+    @ApiImplicitParam(name = Headers.AUTH_TOKEN, value = "token", required = true, dataType = "string", paramType = "header" )
+  })
   @Transactional(rollbackOn = Exception.class)
   @PutMapping()
   public ResponseEntity<DesignShirt> updateDesignShirt(
@@ -90,14 +97,18 @@ public class DesignController {
     @ApiResponse(code = 200, message = "Image saved for selected designed tee-shirt"),
     @ApiResponse(code = 500, message = "Server error, something wrong")
   })
+  @ApiImplicitParams({
+      @ApiImplicitParam(name = Headers.AUTH_TOKEN, value = "token", required = true, dataType = "string", paramType = "header")
+  })
   @Transactional(rollbackOn = Exception.class)
   @PutMapping("/image/{id}")
   public ResponseEntity<DesignShirt> saveUpdateImage(
       @ApiParam(value = "Id of tee-shirt you add image print") @PathVariable("id") String id,
-      @RequestBody MultipartFile image) throws IOException {
+      @RequestBody MultipartFile image)
+      throws IOException {
 
     DesignShirt designShirt =
-        designShirtRepo.findById(Long.valueOf(id)).orElseThrow(() -> new EntityNotFoundException());
+        designShirtRepo.findById(Long.valueOf(id)).orElseThrow(EntityNotFoundException::new);
 
     if (designShirt.getImageLink() == null) {
       float price = designShirt.getTotalPrice() + priceList.getImagePrice();
@@ -116,6 +127,9 @@ public class DesignController {
     @ApiResponse(code = 200, message = "Successful getting tee-shirts with selected colors"),
     @ApiResponse(code = 204, message = "Tee-shirts with selected colors not found"),
     @ApiResponse(code = 500, message = "Server error, something wrong")
+  })
+  @ApiImplicitParams({
+    @ApiImplicitParam(name = Headers.AUTH_TOKEN, value = "token", required = true, dataType = "string", paramType = "header" )
   })
   @GetMapping("/color")
   public ResponseEntity<List<DesignShirt>> designShirtByColor(
@@ -138,11 +152,11 @@ public class DesignController {
   })
   @ApiImplicitParams({
     @ApiImplicitParam(
-        name = "page", dataType = "integer", paramType = "query",
-        value = "Page number you want navigate to (begins with 0)"),
+        name = "page", dataType = "integer", paramType = "query", value = "Page number you want navigate to (begins with 0)"),
     @ApiImplicitParam(
-        name = "size", dataType = "integer", paramType = "query",
-        value = "Quantity of records per page")
+        name = "size", dataType = "integer", paramType = "query", value = "Quantity of records per page"),
+    @ApiImplicitParam(
+        name = Headers.AUTH_TOKEN, value = "token", required = true, dataType = "string", paramType = "header" )
   })
   @GetMapping("/all")
   public ResponseEntity<Page<DesignShirt>> getDesignShirtPage(@ApiIgnore Pageable pageable) {
@@ -157,13 +171,16 @@ public class DesignController {
     @ApiResponse(code = 204, message = "Successful deleting tee-shirt"),
     @ApiResponse(code = 500, message = "Server error, something wrong")
   })
+  @ApiImplicitParams({
+    @ApiImplicitParam(name = Headers.AUTH_TOKEN, value = "token", required = true, dataType = "string", paramType = "header" )
+  })
   @Transactional(rollbackOn = Exception.class)
   @DeleteMapping("/{id}")
   public ResponseEntity<Color> deleteDesignShirt(
       @ApiParam(value = "Id of tee-shirt that need to be deleted") @PathVariable("id") String id) {
 
     DesignShirt designShirt =
-        designShirtRepo.findById(Long.valueOf(id)).orElseThrow(() -> new EntityNotFoundException());
+        designShirtRepo.findById(Long.valueOf(id)).orElseThrow(EntityNotFoundException::new);
 
     designShirt.setDeleted(true);
     blankShirtRepo.updateQuantity(

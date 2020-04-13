@@ -10,6 +10,7 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -30,9 +31,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
   @Override
   protected void configure(HttpSecurity http) throws Exception {
-    http
-        .csrf()
+    http.csrf()
         .disable()
+        .sessionManagement()
+        .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+        .and()
         .exceptionHandling()
         .and()
         .authorizeRequests()
@@ -44,28 +47,31 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             "/swagger-ui.html",
             "/webjars/**")
         .permitAll()
-        .antMatchers("/registration/**").permitAll()
-        .antMatchers("/login/**").permitAll()
-        .antMatchers("/admin").hasRole("ADMIN")
-        .antMatchers("/**").hasAnyRole("USER", "ADMIN");
+        .antMatchers("/registration/**")
+        .permitAll()
+        .antMatchers("/login/**")
+        .permitAll()
+        .antMatchers("/admin")
+        .hasRole("ADMIN")
+        .antMatchers("/**")
+        .hasAnyRole("USER", "ADMIN");
 
     http.addFilterBefore(authenticationTokenFilter(), UsernamePasswordAuthenticationFilter.class);
   }
 
-    @Bean
-    public PasswordEncoder encoder() {
-        return new BCryptPasswordEncoder();
-    }
+  @Bean
+  public PasswordEncoder encoder() {
+    return new BCryptPasswordEncoder();
+  }
 
-    @Bean
-    @Override
-    public AuthenticationManager authenticationManagerBean() throws Exception {
-        return super.authenticationManagerBean();
-    }
+  @Bean
+  @Override
+  public AuthenticationManager authenticationManagerBean() throws Exception {
+    return super.authenticationManagerBean();
+  }
 
-    @Bean
-    public AuthenticationTokenFilter authenticationTokenFilter() throws Exception {
-        return new AuthenticationTokenFilter(
-                tokenUtils, userDetailsService, authenticationManagerBean());
-    }
+  @Bean
+  public AuthenticationTokenFilter authenticationTokenFilter() {
+    return new AuthenticationTokenFilter(tokenUtils, userDetailsService);
+  }
 }

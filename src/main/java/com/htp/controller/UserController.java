@@ -43,6 +43,9 @@ public class UserController {
     @ApiResponse(code = 404, message = "User with such id not found"),
     @ApiResponse(code = 500, message = "Server error, something wrong")
   })
+  @ApiImplicitParams({
+    @ApiImplicitParam(name = Headers.AUTH_TOKEN, value = "token", required = true, dataType = "string", paramType = "header" )
+  })
   @GetMapping("/{id}")
   public ResponseEntity<User> userById(
       @ApiParam(value = "Id of user that need to be found") @PathVariable("id") Long id) {

@@ -13,13 +13,18 @@ import javax.validation.constraints.PositiveOrZero;
 @AllArgsConstructor
 public class ShirtCreateRequest {
 
-  @NotNull private String id;
+  @NotNull
+  private String id;
 
-  @NotNull private String size;
+  @NotNull
+  private String size;
 
-  @NotNull private Long colorId;
+  @NotNull
+  private Long colorId;
 
-  @PositiveOrZero private Integer quantity;
+  @PositiveOrZero
+  private Integer quantity;
 
-  @Positive private Float price;
+  @Positive
+  private Float price;
 }

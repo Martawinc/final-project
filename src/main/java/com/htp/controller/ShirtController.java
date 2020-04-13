@@ -4,6 +4,9 @@ import com.htp.controller.requests.ShirtCreateRequest;
 import com.htp.domain.BlankShirt;
 import com.htp.domain.Color;
 import com.htp.repository.BlankShirtRepository;
+import com.htp.security.Headers;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import io.swagger.annotations.ApiResponse;
@@ -45,6 +48,9 @@ public class ShirtController {
     @ApiResponse(code = 201, message = "New tee-shirt is created"),
     @ApiResponse(code = 500, message = "Server error, something wrong")
   })
+  @ApiImplicitParams({
+    @ApiImplicitParam(name = Headers.AUTH_TOKEN, value = "token", required = true, dataType = "string", paramType = "header" )
+  })
   @Transactional(rollbackOn = Exception.class)
   @PostMapping("/admin/tee-shirt")
   public ResponseEntity<BlankShirt> createBlankShirt(
@@ -58,6 +64,9 @@ public class ShirtController {
     @ApiResponse(code = 200, message = "Successful getting tee-shirt"),
     @ApiResponse(code = 404, message = "Tee-shirt not found"),
     @ApiResponse(code = 500, message = "Server error, something wrong")
+  })
+  @ApiImplicitParams({
+    @ApiImplicitParam(name = Headers.AUTH_TOKEN, value = "token", required = true, dataType = "string", paramType = "header" )
   })
   @GetMapping("/tee-shirt/{id}")
   public ResponseEntity<BlankShirt> blankShirtById(
@@ -73,6 +82,9 @@ public class ShirtController {
     @ApiResponse(code = 200, message = "Successful getting tee-shirts with selected size"),
     @ApiResponse(code = 204, message = "Tee-shirts with selected size not found"),
     @ApiResponse(code = 500, message = "Server error, something wrong")
+  })
+  @ApiImplicitParams({
+    @ApiImplicitParam(name = Headers.AUTH_TOKEN, value = "token", required = true, dataType = "string", paramType = "header" )
   })
   @GetMapping("/tee-shirt/size")
   public ResponseEntity<List<BlankShirt>> blankShirtBySize(
@@ -93,6 +105,9 @@ public class ShirtController {
     @ApiResponse(code = 204, message = "Tee-shirts between max and min quantity not found"),
     @ApiResponse(code = 400, message = "Invalid parameter value"),
     @ApiResponse(code = 500, message = "Server error, something wrong")
+  })
+  @ApiImplicitParams({
+    @ApiImplicitParam(name = Headers.AUTH_TOKEN, value = "token", required = true, dataType = "string", paramType = "header" )
   })
   @GetMapping("admin/tee-shirt/quantity")
   public ResponseEntity<List<BlankShirt>> blankShirtQuantityFilter(
@@ -118,6 +133,9 @@ public class ShirtController {
     @ApiResponse(code = 204, message = "Tee-shirts with selected colors not found"),
     @ApiResponse(code = 500, message = "Server error, something wrong")
   })
+  @ApiImplicitParams({
+    @ApiImplicitParam(name = Headers.AUTH_TOKEN, value = "token", required = true, dataType = "string", paramType = "header" )
+  })
   @GetMapping("/tee-shirt/color")
   public ResponseEntity<List<BlankShirt>> blankShirtByColor(
       @ApiParam(value = "Colors by which need to filter blank tee-shirts")
@@ -135,6 +153,9 @@ public class ShirtController {
     @ApiResponse(code = 204, message = "Tee-shirts between max and min price not found"),
     @ApiResponse(code = 400, message = "Invalid parameter value"),
     @ApiResponse(code = 500, message = "Server error, something wrong")
+  })
+  @ApiImplicitParams({
+    @ApiImplicitParam(name = Headers.AUTH_TOKEN, value = "token", required = true, dataType = "string", paramType = "header" )
   })
   @GetMapping("/tee-shirt/price")
   public ResponseEntity<List<BlankShirt>> blankShirtPriceFilter(
@@ -158,6 +179,9 @@ public class ShirtController {
     @ApiResponse(code = 400, message = "Invalid parameter value"),
     @ApiResponse(code = 404, message = "Tee-shirt not found"),
     @ApiResponse(code = 500, message = "Server error, something wrong")
+  })
+  @ApiImplicitParams({
+    @ApiImplicitParam(name = Headers.AUTH_TOKEN, value = "token", required = true, dataType = "string", paramType = "header" )
   })
   @Transactional(rollbackOn = Exception.class)
   @PutMapping("admin/tee-shirt/quantity/{id}")
@@ -186,6 +210,9 @@ public class ShirtController {
     @ApiResponse(code = 404, message = "Tee-shirt not found"),
     @ApiResponse(code = 500, message = "Server error, something wrong")
   })
+  @ApiImplicitParams({
+    @ApiImplicitParam(name = Headers.AUTH_TOKEN, value = "token", required = true, dataType = "string", paramType = "header" )
+  })
   @Transactional(rollbackOn = Exception.class)
   @PutMapping("admin/tee-shirt/price")
   public ResponseEntity<List<BlankShirt>> updatePriceByIdList(
@@ -210,6 +237,9 @@ public class ShirtController {
   @ApiResponses({
     @ApiResponse(code = 204, message = "Successful deleting tee-shirt"),
     @ApiResponse(code = 500, message = "Server error, something wrong")
+  })
+  @ApiImplicitParams({
+    @ApiImplicitParam(name = Headers.AUTH_TOKEN, value = "token", required = true, dataType = "string", paramType = "header" )
   })
   @Transactional(rollbackOn = Exception.class)
   @DeleteMapping("admin/tee-shirt/{id}")

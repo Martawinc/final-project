@@ -11,38 +11,33 @@ import org.springframework.stereotype.Component;
 
 import java.util.Calendar;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 @Component
 @RequiredArgsConstructor
 public class TokenUtils {
-  private static final String CREATED = "created";
   private static final String ROLES = "roles";
   private final JwtTokenConfig tokenConfig;
 
-  private String generateToken(Map<String, Object> claims) {
-    return Jwts
-            .builder()
-            .setClaims(claims)
-            .setExpiration(generateExpirationDate())
-            .signWith(SignatureAlgorithm.HS512, tokenConfig.getSecret())
-            .compact();
+  private String generateToken(Claims claims) {
+    return Jwts.builder()
+        .setClaims(claims)
+        .setIssuedAt(generateCurrentDate())
+        .setExpiration(generateExpirationDate())
+        .signWith(SignatureAlgorithm.HS512, tokenConfig.getSecret())
+        .compact();
   }
 
   public String generateToken(UserDetails user) {
-    Map<String, Object> claims = new HashMap<>();
-    claims.put(Claims.SUBJECT, user.getUsername());
-    claims.put(CREATED, generateCurrentDate());
+    Claims claims = Jwts.claims();
+    claims.setSubject(user.getUsername());
     claims.put(ROLES, getEncryptedRoles(user));
     return generateToken(claims);
   }
 
-  public Boolean validateToken (String token, UserDetails user){
-      String tokenUsername = getUsernameFromToken(token);
-      return tokenUsername.equals(user.getUsername());
+  public Boolean validateToken(String token) {
+      return !getExpirationDateFromToken(token).before(generateCurrentDate());
   }
 
   private Date generateExpirationDate() {
@@ -56,20 +51,19 @@ public class TokenUtils {
   }
 
   private List<String> getEncryptedRoles(UserDetails user) {
-    return user.getAuthorities()
-            .stream()
-            .map(GrantedAuthority::getAuthority)
-            .map(x -> x.replace("ROLE_", ""))
-            .map(String::toLowerCase)
-            .collect(Collectors.toList());
+    return user.getAuthorities().stream()
+        .map(GrantedAuthority::getAuthority)
+        .map(x -> x.replace("ROLE_", ""))
+        .map(String::toLowerCase)
+        .collect(Collectors.toList());
   }
 
   public String getUsernameFromToken(String token) {
     return getClaimsFromToken(token).getSubject();
   }
 
-  public Date getCreatedDateFromToken(String token) {
-    return (Date) getClaimsFromToken(token).get(CREATED);
+  public Date getIssuedDateFromToken(String token) {
+    return getClaimsFromToken(token).getIssuedAt();
   }
 
   public Date getExpirationDateFromToken(String token) {
@@ -77,10 +71,6 @@ public class TokenUtils {
   }
 
   private Claims getClaimsFromToken(String token) {
-    return Jwts
-            .parser()
-            .setSigningKey(tokenConfig.getSecret())
-            .parseClaimsJws(token)
-            .getBody();
+    return Jwts.parser().setSigningKey(tokenConfig.getSecret()).parseClaimsJws(token).getBody();
   }
 }
