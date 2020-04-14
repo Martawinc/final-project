@@ -3,6 +3,9 @@ package com.htp.controller;
 import com.htp.controller.requests.UserCreateRequest;
 import com.htp.domain.User;
 import com.htp.repository.UserRepository;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.convert.ConversionService;
 import org.springframework.http.HttpStatus;
@@ -23,6 +26,12 @@ public class RegistrationController {
   private final UserRepository userRepo;
   private final ConversionService conversionService;
 
+  @ApiOperation(
+      value = "Register new user", notes = "Fill all fields required ")
+  @ApiResponses({
+    @ApiResponse(code = 201, message = "New user is created"),
+    @ApiResponse(code = 500, message = "Server error, something wrong")
+  })
   @Transactional(rollbackOn = Exception.class)
   @PostMapping
   public ResponseEntity<User> registrationProcess(@RequestBody @Valid UserCreateRequest form) {

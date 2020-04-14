@@ -15,7 +15,7 @@ public class UserFullUpdateRequestConverter extends UserRequestConverter<UserUpd
   public User convert(UserUpdateRequest request) {
     User user    =
         ofNullable(entityManager.find(User.class, request.getId()))
-            .orElseThrow(() -> new EntityNotFoundException());
+            .orElseThrow(EntityNotFoundException::new);
     return convertToUser(user, request);
   }
 }

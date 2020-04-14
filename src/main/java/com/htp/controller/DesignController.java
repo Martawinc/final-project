@@ -3,7 +3,6 @@ package com.htp.controller;
 import com.htp.config.PriceListConfig;
 import com.htp.controller.requests.DesignCreateRequest;
 import com.htp.controller.requests.DesignUpdateRequest;
-import com.htp.domain.Color;
 import com.htp.domain.DesignShirt;
 import com.htp.repository.BlankShirtRepository;
 import com.htp.repository.DesignShirtRepository;
@@ -176,7 +175,7 @@ public class DesignController {
   })
   @Transactional(rollbackOn = Exception.class)
   @DeleteMapping("/{id}")
-  public ResponseEntity<Color> deleteDesignShirt(
+  public ResponseEntity<DesignShirt> deleteDesignShirt(
       @ApiParam(value = "Id of tee-shirt that need to be deleted") @PathVariable("id") String id) {
 
     DesignShirt designShirt =

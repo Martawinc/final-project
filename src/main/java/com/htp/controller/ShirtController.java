@@ -22,7 +22,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -33,7 +32,6 @@ import java.util.Optional;
 
 @RestController
 @CrossOrigin
-@RequestMapping()
 @RequiredArgsConstructor
 public class ShirtController {
 
@@ -109,7 +107,7 @@ public class ShirtController {
   @ApiImplicitParams({
     @ApiImplicitParam(name = Headers.AUTH_TOKEN, value = "token", required = true, dataType = "string", paramType = "header" )
   })
-  @GetMapping("admin/tee-shirt/quantity")
+  @GetMapping("/admin/tee-shirt/quantity")
   public ResponseEntity<List<BlankShirt>> blankShirtQuantityFilter(
       @ApiParam(value = "min quantity") @RequestParam(name = "min") String min,
       @ApiParam(value = "max quantity") @RequestParam(name = "max") String max) {
@@ -184,7 +182,7 @@ public class ShirtController {
     @ApiImplicitParam(name = Headers.AUTH_TOKEN, value = "token", required = true, dataType = "string", paramType = "header" )
   })
   @Transactional(rollbackOn = Exception.class)
-  @PutMapping("admin/tee-shirt/quantity/{id}")
+  @PutMapping("/admin/tee-shirt/quantity/{id}")
   public ResponseEntity<BlankShirt> updateQuantity(
       @ApiParam(value = "Id of tee-shirt that need to be updated") @PathVariable("id") String id,
       @ApiParam(value = "New quantity") @RequestParam String quantity) {
@@ -214,7 +212,7 @@ public class ShirtController {
     @ApiImplicitParam(name = Headers.AUTH_TOKEN, value = "token", required = true, dataType = "string", paramType = "header" )
   })
   @Transactional(rollbackOn = Exception.class)
-  @PutMapping("admin/tee-shirt/price")
+  @PutMapping("/admin/tee-shirt/price")
   public ResponseEntity<List<BlankShirt>> updatePriceByIdList(
       @ApiParam(value = "List of tee-shirt ids that need to be updated") @RequestParam List<String> ids,
       @ApiParam(value = "New price") @RequestParam String price) {
@@ -242,14 +240,12 @@ public class ShirtController {
     @ApiImplicitParam(name = Headers.AUTH_TOKEN, value = "token", required = true, dataType = "string", paramType = "header" )
   })
   @Transactional(rollbackOn = Exception.class)
-  @DeleteMapping("admin/tee-shirt/{id}")
+  @DeleteMapping("/admin/tee-shirt/{id}")
   public ResponseEntity<Color> deleteBlankShirt(
       @ApiParam(value = "Id of tee-shirt that need to be deleted") @PathVariable("id") String id) {
 
     Optional<BlankShirt> shirt = shirtRepo.findById(id);
-    if (shirt.isPresent()) {
-      shirtRepo.delete(shirt.get());
-    }
+      shirt.ifPresent(shirtRepo::delete);
     return new ResponseEntity<>(null, HttpStatus.NO_CONTENT);
   }
 }

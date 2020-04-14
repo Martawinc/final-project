@@ -16,7 +16,7 @@ public class OrderFullUpdateRequestConverter
   public Order convert(OrderUpdateRequest request) {
     Order order =
         ofNullable(entityManager.find(Order.class, request.getId()))
-            .orElseThrow(() -> new EntityNotFoundException());
+            .orElseThrow(EntityNotFoundException::new);
     return convertToOrder(order, request);
   }
 }

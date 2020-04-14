@@ -25,9 +25,9 @@ public interface BlankShirtRepository extends JpaRepository<BlankShirt, String> 
 
   @Modifying(flushAutomatically = true)
   @Query("update BlankShirt shirt set shirt.price = :price where shirt.id = :id")
-  int updatePrice(@Param("price") float price, @Param("id") String id);
+  void updatePrice(@Param("price") float price, @Param("id") String id);
 
   @Modifying(flushAutomatically = true)
   @Query("update BlankShirt shirt set shirt.quantity = :quantity where shirt.id = :id")
-  int updateQuantity(@Param("quantity") int quantity, @Param("id") String id);
+  void updateQuantity(@Param("quantity") int quantity, @Param("id") String id);
 }

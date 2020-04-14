@@ -73,6 +73,9 @@ public class User implements UserDetails {
   @JsonManagedReference
   private Role role;
 
+  @Column(name = "is_deleted")
+  private boolean deleted;
+
   @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
   @JsonBackReference
   private Set<Order> orders = Collections.emptySet();

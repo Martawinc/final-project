@@ -16,7 +16,7 @@ public class DesignFullUpdateRequestConverter
   public DesignShirt convert(DesignUpdateRequest request) {
     DesignShirt designShirt =
         ofNullable(entityManager.find(DesignShirt.class, request.getId()))
-            .orElseThrow(() -> new EntityNotFoundException());
+            .orElseThrow(EntityNotFoundException::new);
     return convertToDesignShirt(designShirt, request);
   }
 }

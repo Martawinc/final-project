@@ -16,7 +16,7 @@ public class ShirtFullUpdateRequestConverter
   public BlankShirt convert(ShirtUpdateRequest request) {
     BlankShirt blankShirt =
         ofNullable(entityManager.find(BlankShirt.class, request.getId()))
-            .orElseThrow(() -> new EntityNotFoundException());
+            .orElseThrow(EntityNotFoundException::new);
     return convertToShirt(blankShirt, request);
   }
 }

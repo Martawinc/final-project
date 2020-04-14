@@ -42,6 +42,7 @@ public abstract class DesignRequestConverter<S, T> extends EntityConverter<S, T>
 
     designShirt.setText(request.getText());
     designShirt.setTotalPrice(calculatePrice(designShirt));
+    designShirt.setDeleted(false);
     return designShirt;
   }
 

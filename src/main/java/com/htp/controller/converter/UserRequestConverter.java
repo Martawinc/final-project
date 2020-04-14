@@ -16,6 +16,7 @@ public abstract class UserRequestConverter<S, T> extends EntityConverter<S, T> {
     user.setZip(request.getZip());
     user.setPhoneNumber(request.getPhoneNumber());
     user.setMail(request.getMail());
+    user.setDeleted(false);
 
     return user;
   }
