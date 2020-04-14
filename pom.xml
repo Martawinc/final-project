@@ -20,6 +20,7 @@
         <javassist.version>3.26.0-GA</javassist.version>
         <commons.lang3.version>3.8.1</commons.lang3.version>
         <jakarta.version>2.3.2</jakarta.version>
+        <flyway.version>6.3.3</flyway.version>
     </properties>
 
     <parent>
@@ -91,6 +92,12 @@
         <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-core</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.flywaydb</groupId>
+            <artifactId>flyway-core</artifactId>
+            <version>${flyway.version}</version>
         </dependency>
 
         <dependency>

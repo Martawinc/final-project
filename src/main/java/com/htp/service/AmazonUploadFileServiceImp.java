@@ -2,6 +2,7 @@ package com.htp.service;
 
 import com.htp.config.AmazonS3Config;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import software.amazon.awssdk.core.async.AsyncRequestBody;
 import software.amazon.awssdk.services.s3.S3AsyncClient;
@@ -11,6 +12,7 @@ import software.amazon.awssdk.services.s3.model.PutObjectResponse;
 
 import java.util.concurrent.CompletableFuture;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class AmazonUploadFileServiceImp implements AmazonUploadFileService {
@@ -35,13 +37,9 @@ public class AmazonUploadFileServiceImp implements AmazonUploadFileService {
     responseFuture.whenComplete(
         (putObjectResponse, exception) -> {
           if (putObjectResponse != null) {
-            // Print the object version
-            System.out.println(putObjectResponse.versionId());
-            System.out.println("Response from Server : " + putObjectResponse);
-
+            log.info("Response from Server : " + putObjectResponse);
           } else {
-            // Handle the error
-            exception.printStackTrace();
+            log.error(exception.getMessage(), exception);
           }
         });
 
