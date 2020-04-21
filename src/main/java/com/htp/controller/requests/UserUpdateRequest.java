@@ -14,6 +14,5 @@ import javax.validation.constraints.NotNull;
 @NoArgsConstructor
 @AllArgsConstructor
 public class UserUpdateRequest extends UserCreateRequest {
-  @NotNull
-  private Long id;
+	@NotNull private Long id;
 }

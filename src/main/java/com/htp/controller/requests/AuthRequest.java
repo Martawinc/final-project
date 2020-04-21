@@ -15,11 +15,11 @@ import java.io.Serializable;
 @ApiModel(description = "Request for user authentication")
 public class AuthRequest implements Serializable {
 
-  @NotEmpty
-  @ApiModelProperty(required = true, dataType = "String", notes = "Unique user's  login")
-  private String username;
+	@NotEmpty
+	@ApiModelProperty(required = true, dataType = "String", notes = "Unique user's  login")
+	private String username;
 
-  @NotEmpty
-  @ApiModelProperty(required = true, dataType = "String")
-  private String password;
+	@NotEmpty
+	@ApiModelProperty(required = true, dataType = "String")
+	private String password;
 }

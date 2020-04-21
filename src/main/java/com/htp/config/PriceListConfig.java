@@ -10,6 +10,6 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 @ConfigurationProperties("pricelist")
 public class PriceListConfig {
-    private float textPrice;
-    private float imagePrice;
+	private float textPrice;
+	private float imagePrice;
 }

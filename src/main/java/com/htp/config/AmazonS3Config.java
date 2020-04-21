@@ -14,18 +14,18 @@ import software.amazon.awssdk.services.s3.S3AsyncClient;
 @Configuration
 @ConfigurationProperties("amazon")
 public class AmazonS3Config {
-  private String serverURL;
-  private String awsAccessKeyId;
-  private String awsSecretKey;
-  private String region;
-  private String folder;
-  private String bucket;
+	private String serverURL;
+	private String awsAccessKeyId;
+	private String awsSecretKey;
+	private String region;
+	private String folder;
+	private String bucket;
 
-  @Bean
-  public S3AsyncClient s3Client() {
-    return S3AsyncClient.builder()
-        .region(Region.of(region))
-        .credentialsProvider(() -> AwsBasicCredentials.create(awsAccessKeyId, awsSecretKey))
-        .build();
-  }
+	@Bean
+	public S3AsyncClient s3Client() {
+		return S3AsyncClient.builder()
+				.region(Region.of(region))
+				.credentialsProvider(() -> AwsBasicCredentials.create(awsAccessKeyId, awsSecretKey))
+				.build();
+	}
 }

@@ -23,19 +23,18 @@ import javax.validation.Valid;
 @RequiredArgsConstructor
 public class RegistrationController {
 
-  private final UserRepository userRepo;
-  private final ConversionService conversionService;
+	private final UserRepository userRepo;
+	private final ConversionService conversionService;
 
-  @ApiOperation(
-      value = "Register new user", notes = "Fill all fields required ")
-  @ApiResponses({
-    @ApiResponse(code = 201, message = "New user is created"),
-    @ApiResponse(code = 500, message = "Server error, something wrong")
-  })
-  @Transactional(rollbackOn = Exception.class)
-  @PostMapping
-  public ResponseEntity<User> registrationProcess(@RequestBody @Valid UserCreateRequest form) {
-    User convertedUser = conversionService.convert(form, User.class);
-    return new ResponseEntity<>(userRepo.saveAndFlush(convertedUser), HttpStatus.CREATED);
-  }
+	@ApiOperation(value = "Register new user", notes = "Fill all fields required ")
+	@ApiResponses({
+			@ApiResponse(code = 201, message = "New user is created"),
+			@ApiResponse(code = 500, message = "Server error, something wrong")
+	})
+	@Transactional(rollbackOn = Exception.class)
+	@PostMapping
+	public ResponseEntity<User> registrationProcess(@RequestBody @Valid UserCreateRequest form) {
+		User convertedUser = conversionService.convert(form, User.class);
+		return new ResponseEntity<>(userRepo.saveAndFlush(convertedUser), HttpStatus.CREATED);
+	}
 }

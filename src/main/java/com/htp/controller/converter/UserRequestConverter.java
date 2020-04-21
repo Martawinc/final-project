@@ -7,17 +7,17 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public abstract class UserRequestConverter<S, T> extends EntityConverter<S, T> {
 
-  protected User convertToUser(User user, UserCreateRequest request) {
+	protected User convertToUser(User user, UserCreateRequest request) {
 
-    user.setFullName(request.getFullName());
-    user.setBirthDate(request.getBirthDate());
-    user.setCity(request.getCity());
-    user.setStreet(request.getStreet());
-    user.setZip(request.getZip());
-    user.setPhoneNumber(request.getPhoneNumber());
-    user.setMail(request.getMail());
-    user.setDeleted(false);
+		user.setFullName(request.getFullName());
+		user.setBirthDate(request.getBirthDate());
+		user.setCity(request.getCity());
+		user.setStreet(request.getStreet());
+		user.setZip(request.getZip());
+		user.setPhoneNumber(request.getPhoneNumber());
+		user.setMail(request.getMail());
+		user.setDeleted(false);
 
-    return user;
-  }
+		return user;
+	}
 }

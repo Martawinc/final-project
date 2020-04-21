@@ -7,6 +7,4 @@ import lombok.ToString;
 @Data
 @EqualsAndHashCode(callSuper = true)
 @ToString(callSuper = true)
-public class ShirtUpdateRequest extends ShirtCreateRequest {
-
-}
+public class ShirtUpdateRequest extends ShirtCreateRequest {}

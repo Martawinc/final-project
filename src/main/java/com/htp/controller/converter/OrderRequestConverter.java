@@ -15,36 +15,36 @@ import java.util.stream.Collectors;
 @NoArgsConstructor
 public abstract class OrderRequestConverter<S, T> extends EntityConverter<S, T> {
 
-  private DesignShirtRepository designShirtRepo;
-  private PasswordEncoder encoder;
+	private DesignShirtRepository designShirtRepo;
+	private PasswordEncoder encoder;
 
-  protected Order convertToOrder(Order order, OrderCreateRequest request) {
+	protected Order convertToOrder(Order order, OrderCreateRequest request) {
 
-    Set<DesignShirt> designShirts =
-        designShirtRepo.findByIdInAndDeletedFalse(
-            request.getDesignShirtIdSet().stream()
-                .map(x -> Long.valueOf(x))
-                .collect(Collectors.toList()));
+		Set<DesignShirt> designShirts =
+				designShirtRepo.findByIdInAndDeletedFalse(
+						request.getDesignShirtIdSet().stream()
+								.map(x -> Long.valueOf(x))
+								.collect(Collectors.toList()));
 
-    order.setCity(request.getCity());
-    order.setStreet(request.getStreet());
-    order.setZip(request.getZip());
-    order.setCardNumber(encoder.encode(request.getCardNumber()));
-    order.setCardExpiration(encoder.encode(request.getCardExpiration()));
-    order.setCardCVV(encoder.encode(request.getCardCVV()));
-    order.setPlacedAt(new Date());
-    order.setDesignShirts(designShirts);
+		order.setCity(request.getCity());
+		order.setStreet(request.getStreet());
+		order.setZip(request.getZip());
+		order.setCardNumber(encoder.encode(request.getCardNumber()));
+		order.setCardExpiration(encoder.encode(request.getCardExpiration()));
+		order.setCardCVV(encoder.encode(request.getCardCVV()));
+		order.setPlacedAt(new Date());
+		order.setDesignShirts(designShirts);
 
-    return order;
-  }
+		return order;
+	}
 
-    @Autowired
-    private void setShirtRepo(DesignShirtRepository designShirtRepo) {
-        this.designShirtRepo = designShirtRepo;
-    }
+	@Autowired
+	private void setShirtRepo(DesignShirtRepository designShirtRepo) {
+		this.designShirtRepo = designShirtRepo;
+	}
 
-    @Autowired
-    private void setPasswordEncoder(PasswordEncoder encoder) {
-        this.encoder = encoder;
-    }
+	@Autowired
+	private void setPasswordEncoder(PasswordEncoder encoder) {
+		this.encoder = encoder;
+	}
 }

@@ -11,11 +11,11 @@ import static java.util.Optional.ofNullable;
 @Component
 public class UserFullUpdateRequestConverter extends UserRequestConverter<UserUpdateRequest, User> {
 
-    @Override
-  public User convert(UserUpdateRequest request) {
-    User user    =
-        ofNullable(entityManager.find(User.class, request.getId()))
-            .orElseThrow(EntityNotFoundException::new);
-    return convertToUser(user, request);
-  }
+	@Override
+	public User convert(UserUpdateRequest request) {
+		User user =
+				ofNullable(entityManager.find(User.class, request.getId()))
+						.orElseThrow(EntityNotFoundException::new);
+		return convertToUser(user, request);
+	}
 }

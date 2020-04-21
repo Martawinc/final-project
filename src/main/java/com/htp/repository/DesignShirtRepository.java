@@ -11,11 +11,11 @@ import java.util.Set;
 
 public interface DesignShirtRepository extends JpaRepository<DesignShirt, Long> {
 
-  @Query(
-      "Select d from DesignShirt d INNER JOIN BlankShirt b ON d.shirt.id = b.id JOIN Color c ON b.color.id = c.id WHERE c.colorName in (:colorList) and d.deleted = false")
-  List<DesignShirt> findByColor(List<String> colorList);
+	@Query(
+			"Select d from DesignShirt d INNER JOIN BlankShirt b ON d.shirt.id = b.id JOIN Color c ON b.color.id = c.id WHERE c.colorName in (:colorList) and d.deleted = false")
+	List<DesignShirt> findByColor(List<String> colorList);
 
-  Set<DesignShirt> findByIdInAndDeletedFalse(List<Long> idList);
+	Set<DesignShirt> findByIdInAndDeletedFalse(List<Long> idList);
 
-  Page<DesignShirt> findByDeletedFalse (Pageable pageable);
+	Page<DesignShirt> findByDeletedFalse(Pageable pageable);
 }

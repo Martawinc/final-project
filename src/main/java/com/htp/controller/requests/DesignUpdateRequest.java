@@ -14,6 +14,5 @@ import javax.validation.constraints.NotNull;
 @NoArgsConstructor
 @AllArgsConstructor
 public class DesignUpdateRequest extends DesignCreateRequest {
-  @NotNull
-  private Long id;
+	@NotNull private Long id;
 }

@@ -12,10 +12,11 @@ import javax.validation.constraints.Size;
 @AllArgsConstructor
 public class DesignCreateRequest {
 
-  @NotNull
-  private String shirtId;
+	@NotNull
+	@Size(max = 20)
+	private String shirtId;
 
-  @NotNull
-  @Size(min = 1, max = 100)
-  private String text;
+	@NotNull
+	@Size(min = 1, max = 1000)
+	private String text;
 }

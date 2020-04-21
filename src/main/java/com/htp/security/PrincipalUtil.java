@@ -7,8 +7,8 @@ import java.security.Principal;
 
 public class PrincipalUtil {
 
-  public static Long getPrincipalId(Principal principal) {
-    Object userPrincipal = ((UsernamePasswordAuthenticationToken) principal).getPrincipal();
-    return ((User) userPrincipal).getId();
-  }
+	public static Long getPrincipalId(Principal principal) {
+		Object userPrincipal = ((UsernamePasswordAuthenticationToken) principal).getPrincipal();
+		return ((User) userPrincipal).getId();
+	}
 }

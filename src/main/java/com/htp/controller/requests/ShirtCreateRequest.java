@@ -7,24 +7,24 @@ import lombok.NoArgsConstructor;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 import javax.validation.constraints.PositiveOrZero;
+import javax.validation.constraints.Size;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class ShirtCreateRequest {
 
-  @NotNull
-  private String id;
+	@NotNull
+	@Size(min = 1, max = 20)
+	private String id;
 
-  @NotNull
-  private String size;
+	@NotNull
+	@Size(min = 1, max = 10)
+	private String size;
 
-  @NotNull
-  private Long colorId;
+	@NotNull private Long colorId;
 
-  @PositiveOrZero
-  private Integer quantity;
+	@PositiveOrZero private Integer quantity;
 
-  @Positive
-  private Float price;
+	@Positive private Float price;
 }

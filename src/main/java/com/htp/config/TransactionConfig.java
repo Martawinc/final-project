@@ -11,8 +11,8 @@ import javax.persistence.EntityManagerFactory;
 @NoArgsConstructor
 public class TransactionConfig {
 
-  @Bean("transactionManager")
-  public JpaTransactionManager getTransactionManager(EntityManagerFactory entityManagerFactory) {
-    return new JpaTransactionManager(entityManagerFactory);
-  }
+	@Bean("transactionManager")
+	public JpaTransactionManager getTransactionManager(EntityManagerFactory entityManagerFactory) {
+		return new JpaTransactionManager(entityManagerFactory);
+	}
 }

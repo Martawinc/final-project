@@ -14,42 +14,44 @@ import javax.persistence.EntityNotFoundException;
 @NoArgsConstructor
 public abstract class DesignRequestConverter<S, T> extends EntityConverter<S, T> {
 
-  private BlankShirtRepository shirtRepo;
-  private PriceListConfig priceList;
+	private BlankShirtRepository shirtRepo;
+	private PriceListConfig priceList;
 
-  @Autowired
-  private void setShirtRepo(BlankShirtRepository shirtRepo) {
-    this.shirtRepo = shirtRepo;
-  }
+	@Autowired
+	private void setShirtRepo(BlankShirtRepository shirtRepo) {
+		this.shirtRepo = shirtRepo;
+	}
 
-  @Autowired
-  private void setPriceList(PriceListConfig priceList) {
-    this.priceList = priceList;
-  }
+	@Autowired
+	private void setPriceList(PriceListConfig priceList) {
+		this.priceList = priceList;
+	}
 
-  protected DesignShirt convertToDesignShirt(DesignShirt designShirt, DesignCreateRequest request) {
+	protected DesignShirt convertToDesignShirt(DesignShirt designShirt, DesignCreateRequest request) {
 
-    BlankShirt shirt =
-        shirtRepo.findById(request.getShirtId()).orElseThrow(EntityNotFoundException::new);
+		BlankShirt shirt =
+				shirtRepo.findById(request.getShirtId()).orElseThrow(EntityNotFoundException::new);
 
-    if (shirt.getQuantity() == 0) {
-      throw new NotEnoughShirtsException("Shirts with id '" + shirt.getId() +"' not enough for making design");
-    }
-    shirtRepo.updateQuantity(
-        designShirt.getShirt().getQuantity() + 1, designShirt.getShirt().getId());
-    designShirt.setShirt(shirt);
-    shirtRepo.updateQuantity(shirt.getQuantity() - 1, shirt.getId());
+		if (shirt.getQuantity() == 0) {
+			throw new NotEnoughShirtsException(
+					"Shirts with id '" + shirt.getId() + "' not enough for making design");
+		}
+		if (designShirt.getShirt() != null){
+		shirtRepo.updateQuantity(
+				designShirt.getShirt().getQuantity() + 1, designShirt.getShirt().getId());}
+		designShirt.setShirt(shirt);
+		shirtRepo.updateQuantity(shirt.getQuantity() - 1, shirt.getId());
 
-    designShirt.setText(request.getText());
-    designShirt.setTotalPrice(calculatePrice(designShirt));
-    designShirt.setDeleted(false);
-    return designShirt;
-  }
+		designShirt.setText(request.getText());
+		designShirt.setTotalPrice(calculatePrice(designShirt));
+		designShirt.setDeleted(false);
+		return designShirt;
+	}
 
-  private float calculatePrice(DesignShirt designShirt) {
-    float price = designShirt.getShirt().getPrice();
-    if (designShirt.getText() != null) price += priceList.getTextPrice();
-    if (designShirt.getImageLink() != null) price += priceList.getImagePrice();
-    return price;
-  }
+	private float calculatePrice(DesignShirt designShirt) {
+		float price = designShirt.getShirt().getPrice();
+		price += (designShirt.getText() != null) ? priceList.getTextPrice() : 0;
+		price += (designShirt.getImageLink() != null) ? priceList.getImagePrice() : 0;
+		return price;
+	}
 }

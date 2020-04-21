@@ -31,77 +31,77 @@ import java.util.Set;
 @Table(name = "m_user")
 @NoArgsConstructor()
 @Data
-@EqualsAndHashCode(exclude = {"id", "password","orders"})
+@EqualsAndHashCode(exclude = {"id", "password", "orders"})
 @ToString(exclude = {"password", "orders"})
 public class User implements UserDetails {
 
-  @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  @Column(name = "id")
-  private Long id;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "id")
+	private Long id;
 
-  @Column(name = "login")
-  private String username;
+	@Column(name = "login")
+	private String username;
 
-  @Column(name = "password")
-  private String password;
+	@Column(name = "password")
+	private String password;
 
-  @Column(name = "full_name")
-  private String fullName;
+	@Column(name = "full_name")
+	private String fullName;
 
-  @Column(name = "birth_date")
-  @Temporal(TemporalType.DATE)
-  private Date birthDate;
+	@Column(name = "birth_date")
+	@Temporal(TemporalType.DATE)
+	private Date birthDate;
 
-  @Column(name = "city")
-  private String city;
+	@Column(name = "city")
+	private String city;
 
-  @Column(name = "street")
-  private String street;
+	@Column(name = "street")
+	private String street;
 
-  @Column(name = "zip")
-  private Long zip;
+	@Column(name = "zip")
+	private Long zip;
 
-  @Column(name = "phone_number")
-  private String phoneNumber;
+	@Column(name = "phone_number")
+	private String phoneNumber;
 
-  @Column(name = "mail")
-  private String mail;
+	@Column(name = "mail")
+	private String mail;
 
-  @ManyToOne(fetch = FetchType.EAGER)
-  @JoinColumn(name = "role_id")
-  @JsonManagedReference
-  private Role role;
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "role_id")
+	@JsonManagedReference
+	private Role role;
 
-  @Column(name = "is_deleted")
-  private boolean deleted;
+	@Column(name = "is_deleted")
+	private boolean deleted;
 
-  @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-  @JsonBackReference
-  private Set<Order> orders = Collections.emptySet();
+	@OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@JsonBackReference
+	private Set<Order> orders = Collections.emptySet();
 
-  @Override
-  public Collection<? extends GrantedAuthority> getAuthorities() {
-    return Collections.singletonList(role);
-  }
+	@Override
+	public Collection<? extends GrantedAuthority> getAuthorities() {
+		return Collections.singletonList(role);
+	}
 
-  @Override
-  public boolean isAccountNonExpired() {
-    return true;
-  }
+	@Override
+	public boolean isAccountNonExpired() {
+		return true;
+	}
 
-  @Override
-  public boolean isAccountNonLocked() {
-    return true;
-  }
+	@Override
+	public boolean isAccountNonLocked() {
+		return true;
+	}
 
-  @Override
-  public boolean isCredentialsNonExpired() {
-    return true;
-  }
+	@Override
+	public boolean isCredentialsNonExpired() {
+		return true;
+	}
 
-  @Override
-  public boolean isEnabled() {
-    return true;
-  }
+	@Override
+	public boolean isEnabled() {
+		return true;
+	}
 }

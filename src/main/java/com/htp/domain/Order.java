@@ -33,46 +33,46 @@ import java.util.Set;
 @ToString(exclude = "designShirts")
 public class Order {
 
-  @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  @Column(name = "id")
-  private Long id;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "id")
+	private Long id;
 
-  @Column(name = "city")
-  private String city;
+	@Column(name = "city")
+	private String city;
 
-  @Column(name = "street")
-  private String street;
+	@Column(name = "street")
+	private String street;
 
-  @Column(name = "zip")
-  private String zip;
+	@Column(name = "zip")
+	private String zip;
 
-  @JsonIgnore
-  @Column(name = "card_number")
-  private String cardNumber;
+	@JsonIgnore
+	@Column(name = "card_number")
+	private String cardNumber;
 
-  @JsonIgnore
-  @Column(name = "card_expiration")
-  private String cardExpiration;
+	@JsonIgnore
+	@Column(name = "card_expiration")
+	private String cardExpiration;
 
-  @JsonIgnore
-  @Column(name = "cardCVV")
-  private String cardCVV;
+	@JsonIgnore
+	@Column(name = "cardCVV")
+	private String cardCVV;
 
-  @Column(name = "placed_at")
-  @Temporal(TemporalType.DATE)
-  private Date placedAt;
+	@Column(name = "placed_at")
+	@Temporal(TemporalType.DATE)
+	private Date placedAt;
 
-  @ManyToOne(fetch = FetchType.EAGER)
-  @JoinColumn(name = "user_id")
-  @JsonManagedReference
-  private User user;
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "user_id")
+	@JsonManagedReference
+	private User user;
 
-  @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-  @JsonManagedReference
-  @JoinTable(
-      name = "order_design_shirt",
-      joinColumns = @JoinColumn(name = "order_id"),
-      inverseJoinColumns = @JoinColumn(name = "design_shirt_id"))
-  private Set<DesignShirt> designShirts = Collections.emptySet();
+	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@JsonManagedReference
+	@JoinTable(
+			name = "order_design_shirt",
+			joinColumns = @JoinColumn(name = "order_id"),
+			inverseJoinColumns = @JoinColumn(name = "design_shirt_id"))
+	private Set<DesignShirt> designShirts = Collections.emptySet();
 }

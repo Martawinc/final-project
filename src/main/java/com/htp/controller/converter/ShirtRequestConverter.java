@@ -12,24 +12,24 @@ import javax.persistence.EntityNotFoundException;
 @NoArgsConstructor
 public abstract class ShirtRequestConverter<S, T> extends EntityConverter<S, T> {
 
-  private ColorRepository colorRepo;
+	private ColorRepository colorRepo;
 
-  @Autowired
-  private void setColorRepo(ColorRepository colorRepo) {
-    this.colorRepo = colorRepo;
-  }
+	@Autowired
+	private void setColorRepo(ColorRepository colorRepo) {
+		this.colorRepo = colorRepo;
+	}
 
-  protected BlankShirt convertToShirt(BlankShirt shirt, ShirtCreateRequest request) {
+	protected BlankShirt convertToShirt(BlankShirt shirt, ShirtCreateRequest request) {
 
-    Color color =
-        colorRepo.findById(request.getColorId()).orElseThrow(() -> new EntityNotFoundException());
+		Color color =
+				colorRepo.findById(request.getColorId()).orElseThrow(EntityNotFoundException::new);
 
-    shirt.setId(request.getId());
-    shirt.setSize(BlankShirt.Size.valueOf(request.getSize().toUpperCase()));
-    shirt.setColor(color);
-    shirt.setQuantity(request.getQuantity());
-    shirt.setPrice(request.getPrice());
+		shirt.setId(request.getId());
+		shirt.setSize(BlankShirt.Size.valueOf(request.getSize().toUpperCase()));
+		shirt.setColor(color);
+		shirt.setQuantity(request.getQuantity());
+		shirt.setPrice(request.getPrice());
 
-    return shirt;
-  }
+		return shirt;
+	}
 }

@@ -26,15 +26,15 @@ import java.util.Set;
 @ToString(exclude = "blankShirts")
 public class Color {
 
-  @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  @Column(name = "id")
-  private Long id;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "id")
+	private Long id;
 
-  @Column(name = "color_name")
-  private String colorName;
+	@Column(name = "color_name")
+	private String colorName;
 
-  @OneToMany(mappedBy = "color", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-  @JsonBackReference
-  private Set<BlankShirt> blankShirts = Collections.emptySet();
+	@OneToMany(mappedBy = "color", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@JsonBackReference
+	private Set<BlankShirt> blankShirts = Collections.emptySet();
 }

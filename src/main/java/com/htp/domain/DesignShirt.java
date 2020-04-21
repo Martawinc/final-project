@@ -31,32 +31,32 @@ import java.util.Set;
 @ToString(exclude = "orders")
 public class DesignShirt {
 
-  @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private Long id;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
 
-  @ManyToOne(fetch = FetchType.EAGER)
-  @JoinColumn(name = "blank_shirt_id")
-  @JsonManagedReference
-  private BlankShirt shirt;
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "blank_shirt_id")
+	@JsonManagedReference
+	private BlankShirt shirt;
 
-  @Column(name = "text")
-  private String text;
+	@Column(name = "text")
+	private String text;
 
-  @Column(name = "image_link")
-  private String imageLink;
+	@Column(name = "image_link")
+	private String imageLink;
 
-  @Column(name = "total_price")
-  private float totalPrice;
+	@Column(name = "total_price")
+	private float totalPrice;
 
-  @Column(name = "creation_date")
-  @Temporal(TemporalType.DATE)
-  private Date creationDate;
+	@Column(name = "creation_date")
+	@Temporal(TemporalType.DATE)
+	private Date creationDate;
 
-  @Column(name = "is_deleted")
-  private boolean deleted;
+	@Column(name = "is_deleted")
+	private boolean deleted;
 
-  @ManyToMany(mappedBy = "designShirts", fetch = FetchType.LAZY)
-  @JsonBackReference
-  private Set<Order> orders = Collections.emptySet();
+	@ManyToMany(mappedBy = "designShirts", fetch = FetchType.LAZY)
+	@JsonBackReference
+	private Set<Order> orders = Collections.emptySet();
 }

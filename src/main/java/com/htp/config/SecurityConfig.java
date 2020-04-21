@@ -21,57 +21,54 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @RequiredArgsConstructor
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-  private final UserDetailsService userDetailsService;
-  private final TokenUtils tokenUtils;
+	private final UserDetailsService userDetailsService;
+	private final TokenUtils tokenUtils;
 
-  @Override
-  protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-    auth.userDetailsService(userDetailsService).passwordEncoder(encoder());
-  }
+	@Override
+	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+		auth.userDetailsService(userDetailsService).passwordEncoder(encoder());
+	}
 
-  @Override
-  protected void configure(HttpSecurity http) throws Exception {
-    http.csrf()
-        .disable()
-        .sessionManagement()
-        .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-        .and()
-        .exceptionHandling()
-        .and()
-        .authorizeRequests()
-        .antMatchers(
-            "/v2/api-docs",
-            "/configuration/ui/**",
-            "/swagger-resources/**",
-            "/configuration/security/**",
-            "/swagger-ui.html",
-            "/webjars/**")
-        .permitAll()
-        .antMatchers("/registration/**")
-        .permitAll()
-        .antMatchers("/login/**")
-        .permitAll()
-        .antMatchers("/admin")
-        .hasRole("ADMIN")
-        .antMatchers("/**")
-        .hasAnyRole("USER", "ADMIN");
+	@Override
+	protected void configure(HttpSecurity http) throws Exception {
+		http
+				.csrf()
+				.disable()
+				.sessionManagement()
+				.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+			.and()
+				.exceptionHandling()
+			.and()
+				.authorizeRequests()
+				.antMatchers(
+						"/v2/api-docs",
+						"/configuration/ui/**",
+						"/swagger-resources/**",
+						"/configuration/security/**",
+						"/swagger-ui.html",
+						"/webjars/**")
+				.permitAll()
+				.antMatchers("/registration/**").permitAll()
+				.antMatchers("/login/**").permitAll()
+				.antMatchers("/admin/**").hasRole("ADMIN")
+				.antMatchers("/**").hasAnyRole("USER", "ADMIN")
+			.and()
+				.addFilterBefore(authenticationTokenFilter(), UsernamePasswordAuthenticationFilter.class);
+	}
 
-    http.addFilterBefore(authenticationTokenFilter(), UsernamePasswordAuthenticationFilter.class);
-  }
+	@Bean
+	public PasswordEncoder encoder() {
+		return new BCryptPasswordEncoder();
+	}
 
-  @Bean
-  public PasswordEncoder encoder() {
-    return new BCryptPasswordEncoder();
-  }
+	@Bean
+	@Override
+	public AuthenticationManager authenticationManagerBean() throws Exception {
+		return super.authenticationManagerBean();
+	}
 
-  @Bean
-  @Override
-  public AuthenticationManager authenticationManagerBean() throws Exception {
-    return super.authenticationManagerBean();
-  }
-
-  @Bean
-  public AuthenticationTokenFilter authenticationTokenFilter() {
-    return new AuthenticationTokenFilter(tokenUtils, userDetailsService);
-  }
+	@Bean
+	public AuthenticationTokenFilter authenticationTokenFilter() {
+		return new AuthenticationTokenFilter(tokenUtils, userDetailsService);
+	}
 }
